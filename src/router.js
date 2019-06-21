@@ -1,10 +1,17 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+import Home from "./components/Home.vue";
+import Settings from "./views/Settings.vue";
+import Editor from "./components/Editor.vue";
+import Leases from "./components/Leases.vue";
+import CloneExample from "./components/CloneExample.vue";
 
+import NestedExample from "./components/NestedExample.vue";
 Vue.use(Router);
 
 export default new Router({
+  mode: "history",
+  // base: process.env.BASE_URL,
   routes: [
     {
       path: "/",
@@ -12,13 +19,29 @@ export default new Router({
       component: Home
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+      path: "/settings",
+      name: "settings",
+      component: Settings
+    },
+    {
+      path: "/editor",
+      name: "editor",
+      component: Editor
+    },
+    {
+      path: "/leases",
+      name: "leases",
+      component: Leases
+    },
+    {
+      path: "/nested",
+      name: "nested",
+      component: NestedExample
+    },
+    {
+      path: "/cloneExample",
+      name: "cloneExample",
+      component: CloneExample
     }
   ]
 });
