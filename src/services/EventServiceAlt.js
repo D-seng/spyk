@@ -35,5 +35,9 @@ export default {
   },
   getFeeder(id) {
     return apiClient.get('/feeders/' + id)
+  },
+
+  register() {
+    return apiClient.post('/register')
   }
 }

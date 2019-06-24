@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const jwt = require('jsonwebtoken')
 const controller = require('./snippets-controller.js')
 const { Snippet } = require('../../model/snippet')
 // const db = require('./index.js')
@@ -8,7 +9,10 @@ const { Snippet } = require('../../model/snippet')
 //   res.send('post a snippet')
 // })
 
+const jwtKey = process.env.jwtKey
+
 router.get('/snippets', async (req, res) => {
+  // jwt.verify(req.token)
   await Snippet.find({}, (error, snippets) => {
     if (error) {
       return res.status(500).json()

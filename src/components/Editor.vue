@@ -55,6 +55,10 @@ export default {
   },
   methods: {
     onSubmit() {
+      // var jwtK = process.env.VUE_APP_JWTKEY
+      console.log('jwtKey')
+      console.log(process.env.VUE_APP_SECRET)
+      debugger
       this.$emit('sync-content', this.content.text)
     },
     testKeyPresses() {
