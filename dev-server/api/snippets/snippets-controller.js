@@ -1,4 +1,4 @@
-const User = require('../../model/user-model')
+const User = require('../../model/user')
 const Snippet = require('../../model/snippet')
 
 exports.index = function index(req, res) {

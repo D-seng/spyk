@@ -2,10 +2,23 @@ const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 const config = require('config')
+const { User } = require('../../model/user')
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   var token = jwt.sign('register', config.get('jwtSecretKey'))
-  res.send('register')
+
+  const user = new User({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password
+  })
+  const result = await user.save()
+  //.insertOne({ text: req.body, createdAt: new Date() })
+  // res.status(201).send(snippet)
+  console.log(result)
+  res.send(result)
+
+  res.send(token)
 })
 
 module.exports = router
