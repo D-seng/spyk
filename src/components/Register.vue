@@ -9,11 +9,17 @@
 import EventServiceAlt from '@/services/EventServiceAlt'
 export default {
   data() {
-    return {}
+    return {
+      username: 'jacksikma',
+      first: 'Jack',
+      last: 'Sikma',
+      email: 'jack@supersonics.com',
+      password: '123456'
+    }
   },
   methods: {
     registerUser() {
-      EventServiceAlt.register().then(response => {
+      EventServiceAlt.register({username: this.username, first: this.first, last: this.last, email: this.email, password: this.password}).then(response => {
         console.log(JSON.stringify(response.data))
       })
       // debugger

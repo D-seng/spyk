@@ -8,7 +8,9 @@ router.post('/register', async (req, res) => {
   var token = jwt.sign('register', config.get('jwtSecretKey'))
 
   const user = new User({
-    name: req.body.name,
+    username: req.body.username,
+    first: req.body.first,
+    last: req.body.last,
     email: req.body.email,
     password: req.body.password
   })
