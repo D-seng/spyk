@@ -39,5 +39,8 @@ export default {
 
   register(newUser) {
     return apiClient.post('/register', newUser)
+  },
+  authenticateUser(user) {
+    return apiClient.post('/auth', user)
   }
 }

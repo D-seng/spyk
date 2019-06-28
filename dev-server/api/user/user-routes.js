@@ -3,6 +3,7 @@ const controller = require('./user-controller.js')
 const jwt = require('jsonwebtoken')
 const config = require('config')
 const { User } = require('../../model/user')
+const bcryptjs = require('bcryptjs')
 
 const router = express.Router()
 
@@ -13,6 +14,8 @@ router.get('/user/:id', (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
+  const salt = await bcryptjs.genSalt(10)
+  const hash = await bcryptjs.hash(req.body.password, salt)
   let user = await User.findOne({ email: req.body.email })
 
   if (!user) {
@@ -21,7 +24,7 @@ router.post('/register', async (req, res) => {
       first: req.body.first,
       last: req.body.last,
       email: req.body.email,
-      password: req.body.password
+      password: hash
     })
     var token = jwt.sign({ _id: user._id }, config.get('jwtSecretKey'))
     user = await user.save()

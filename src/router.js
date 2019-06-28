@@ -5,6 +5,7 @@ import Register from './components/Register.vue'
 import Settings from './views/Settings.vue'
 import Editor from './components/Editor.vue'
 import Leases from './components/Leases.vue'
+import Authenticate from './components/Authenticate.vue'
 import CloneExample from './components/CloneExample.vue'
 
 import NestedExample from './components/NestedExample.vue'
@@ -48,6 +49,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register
+    },
+    {
+      path: '/auth',
+      name: 'auth',
+      component: Authenticate
     }
   ]
 })

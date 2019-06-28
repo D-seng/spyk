@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>Register</h3>
-    <v-btn @click="registerUser">registerUser</v-btn>
+    <v-btn @click="authUser">authenticateUser</v-btn>
   </div>
 </template>
 
@@ -19,7 +19,8 @@ export default {
     }
   },
   methods: {
-    authenticateUser() {
+    authUser() {
+      debugger
       EventServiceAlt.authenticateUser({
         username: this.username,
         first: this.first,
