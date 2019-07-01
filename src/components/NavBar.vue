@@ -1,25 +1,27 @@
 <template>
   <nav>
     <v-toolbar app flat class="grey lighten-4">
-      <v-toolbar-side-icon
-        class="grey--text"
-        @click="drawer = !drawer"
-      ></v-toolbar-side-icon>
+      <div v-if="loggedIn">
+        <v-toolbar-side-icon
+          class="grey--text"
+          @click="drawer = !drawer"
+        ></v-toolbar-side-icon>
+      </div>
       <v-toolbar-title class="headline text-lowercase">
         <span>li</span>
         <span class="font-weight-light text-uppercase">SMART</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-
-      <v-btn flat color="grey">SIGN OUT</v-btn>
-      <v-icon>exit_to_app</v-icon>
+      <div v-if="loggedIn">
+        <v-btn>SIGN OUT</v-btn>
+      </div>
     </v-toolbar>
     <v-navigation-drawer v-model="drawer" app>
       <v-list>
         <v-list-tile
-          class="ma-1"
           v-for="link in links"
           :key="link.title"
+          class="ma-1"
           router
           :to="link.route"
         >
@@ -37,6 +39,7 @@
 </template>
 
 <script>
+import { authComputed } from '@/vuex/helpers.js'
 export default {
   data() {
     return {
@@ -46,9 +49,14 @@ export default {
         { title: 'Home', icon: 'home', route: '/' },
         { title: 'Settings', icon: 'settings', route: '/settings' },
         { title: 'Editor', icon: 'info', route: '/editor' },
-        { title: 'Nested', icon: 'info', route: '/nested' }
+        { title: 'Nested', icon: 'info', route: '/nested' },
+        { title: 'Register', icon: 'info', route: '/register' },
+        { title: 'Log In', icon: 'info', route: '/auth' }
       ]
     }
+  },
+  computed: {
+    ...authComputed
   }
 }
 </script>

@@ -1,35 +1,53 @@
 <template>
   <div>
-    <h3>Register</h3>
-    <v-btn @click="authUser">authenticateUser</v-btn>
+    <form @submit.prevent="authUser">
+      <label for="email">
+        Email:
+      </label>
+      <input v-model="email" type="email" name="email" value />
+
+      <label for="password">
+        Password:
+      </label>
+      <input
+        v-model="password"
+        type="password"
+        name="password"
+        autocomplete=""
+        value
+      />
+
+      <button type="submit" name="button">
+        Log In
+      </button>
+      <h3>
+        Not registered?
+      </h3>
+      <router-link tag="h3" to="/register"><a>Sign Up!</a></router-link>
+    </form>
   </div>
 </template>
 
 <script type="module">
-import EventServiceAlt from '@/services/EventServiceAlt'
-
 export default {
   data() {
     return {
-      username: 'jacksikma',
-      first: 'Jack',
-      last: 'Sikma',
-      email: 'jack@soni.com',
-      password: '1234567'
+      email: '',
+      password: ''
     }
   },
+
   methods: {
     authUser() {
-      debugger
-      EventServiceAlt.authenticateUser({
-        username: this.username,
-        first: this.first,
-        last: this.last,
-        email: this.email,
-        password: this.password
-      }).then(response => {
-        console.log(JSON.stringify(response.data))
-      })
+      // debugger
+      this.$store
+        .dispatch('authenticateUser', {
+          email: this.email,
+          password: this.password
+        })
+        .then(() => {
+          this.$router.push({ name: 'nested' })
+        })
       // debugger
     }
   }

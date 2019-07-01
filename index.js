@@ -1,9 +1,10 @@
+process.env.NODE_CONFIG_DIR = './config'
 const config = require('config')
 
 const express = require('express')
-const registerRoutes = require('./routes.js')
-const setEnvironment = require('./config/env.js')
-const connectToDb = require('./config/db.js')
+const registerRoutes = require('./dev-server/routes.js')
+const setEnvironment = require('./dev-server/config/env.js')
+const connectToDb = require('./dev-server/config/db.js')
 
 const app = express()
 
@@ -11,6 +12,7 @@ if (!config.get('jwtSecretKey')) {
   console.log('FATAL ERROR: jwtSecretKey is not defined')
   process.exit(1)
 }
+
 setEnvironment(app)
 connectToDb()
 registerRoutes(app)

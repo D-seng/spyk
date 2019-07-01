@@ -1,12 +1,18 @@
 <template>
   <div>
-    <p>home</p>
-    <Popup />
+    <div v-if="!loggedIn">
+      <h3>
+        Please <router-link to="/auth"> log in </router-link> or
+        <router-link to="/register"> register.</router-link>
+      </h3>
+    </div>
+    <!-- <Popup /> -->
   </div>
 </template>
 
 <script type="module">
 import Popup from './Popup'
+import { authComputed } from '@/vuex/helpers.js'
 export default {
   components: {
     Popup
@@ -19,7 +25,9 @@ export default {
     //   this.$modal.hide('hello-world')
     // }
   },
-
+  computed: {
+    ...authComputed
+  },
   beforeCreate() {
     // fetch('http://localhost:3000' + '/api/snippet', {
     //   method: 'GET'

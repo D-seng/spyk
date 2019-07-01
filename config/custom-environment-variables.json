@@ -1,0 +1,4 @@
+{
+  "jwtSecretKey": "spyk_jwtSecretKey",
+  "emailPassword": "spyk_emailPassword"
+}

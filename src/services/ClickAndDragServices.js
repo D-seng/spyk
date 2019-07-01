@@ -1,4 +1,4 @@
-import store from '../store'
+import store from '@/vuex/store'
 
 // Vue.use(Vuex)
 var inSingleMode = []
