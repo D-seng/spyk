@@ -8,8 +8,7 @@
         ></v-toolbar-side-icon>
       </div>
       <v-toolbar-title class="headline text-lowercase">
-        <span>li</span>
-        <span class="font-weight-light text-uppercase">SMART</span>
+        <span class="font-weight-light text-uppercase">AUD</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <div v-if="loggedIn">

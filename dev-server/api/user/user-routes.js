@@ -15,14 +15,15 @@ router.get('/user/:id', (req, res) => {
 })
 
 router.post('/auth', async (req, res) => {
-  // const { error } = validate(req.body)
-  // if (error) return res.status(400).send(error.details[0].message)
+  const { error } = validate(req.body)
+  if (error) return res.status(400).send(error.details[0].message)
 
   let user = await User.findOne({ email: req.body.email })
-  if (!user) return res.status(400).send('Invalid email or password.')
+  if (!user) return res.status(401).send('Invalid email or password.')
 
   const validPassword = await bcryptjs.compare(req.body.password, user.password)
-  if (!validPassword) return res.status(400).send('Invalid email or password.')
+  if (!validPassword)
+    return res.status(400).json({ ERROR: 'Invalid email or password.' })
 
   var token = jwt.sign({ _id: user._id }, config.get('jwtSecretKey'))
 

@@ -48,6 +48,9 @@ export default {
         .then(() => {
           this.$router.push({ name: 'nested' })
         })
+        .catch(err => {
+          console.log(err.response)
+        })
       // debugger
     }
   }
