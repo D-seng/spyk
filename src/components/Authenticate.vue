@@ -20,6 +20,7 @@
       <button type="submit" name="button">
         Log In
       </button>
+      <p>{{ error }}</p>
       <h3>
         Not registered?
       </h3>
@@ -32,8 +33,9 @@
 export default {
   data() {
     return {
-      email: '',
-      password: ''
+      email: null,
+      password: null,
+      error: null
     }
   },
 
@@ -49,7 +51,10 @@ export default {
           this.$router.push({ name: 'nested' })
         })
         .catch(err => {
-          console.log(err.response)
+          debugger
+          console.log(err.response.data)
+
+          this.error = err.response.data
         })
       // debugger
     }

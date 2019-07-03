@@ -15,20 +15,33 @@ router.get('/user/:id', (req, res) => {
 })
 
 router.post('/auth', async (req, res) => {
+  var errorsToSend = []
+
   const { error } = validate(req.body)
-  if (error) return res.status(400).send(error.details[0].message)
+  if (error) {
+    errorsToSend.push(error.details[0].message)
+  }
 
   let user = await User.findOne({ email: req.body.email })
-  if (!user) return res.status(401).send('Invalid email or password.')
+  if (!user) {
+    errorsToSend.push('Invalid email or password.')
+  } else {
+    const validPassword = await bcryptjs.compare(
+      req.body.password,
+      user.password
+    )
+    if (!validPassword) {
+      errorsToSend.push('Invalid email or password')
+    }
+  }
 
-  const validPassword = await bcryptjs.compare(req.body.password, user.password)
-  if (!validPassword)
-    return res.status(400).json({ ERROR: 'Invalid email or password.' })
-
+  if (errorsToSend.length > 0) {
+    return res.status(401).send(errorsToSend)
+  }
   var token = jwt.sign({ _id: user._id }, config.get('jwtSecretKey'))
-
-  res.header('x-auth-token', token).send(user)
+  return res.header('x-auth-token', token).send(user)
 })
+
 router.post('/register', async (req, res) => {
   const salt = await bcryptjs.genSalt(10)
   const hash = await bcryptjs.hash(req.body.password, salt)

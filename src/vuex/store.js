@@ -47,9 +47,9 @@ export default new Vuex.Store({
       })
     },
     authenticateUser({ commit }, user) {
-      debugger
+      // debugger
       return EventServiceAlt.authenticateUser(user).then(response => {
-        debugger
+        // debugger
         commit('SET_USER_DATA', response)
       })
     }
