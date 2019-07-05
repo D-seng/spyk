@@ -35,6 +35,7 @@
       <button type="submit" name="button">
         Register
       </button>
+      <p>{{ error }}</p>
       <h3>Already have an account?</h3>
       <router-link tag="h3" to="/auth"><a>Log In</a></router-link>
     </form>
@@ -42,8 +43,6 @@
 </template>
 
 <script type="module">
-import EventServiceAlt from '@/services/EventServiceAlt'
-
 export default {
   data() {
     return {
@@ -51,7 +50,8 @@ export default {
       first: '',
       last: '',
       email: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
   methods: {
@@ -66,6 +66,12 @@ export default {
         })
         .then(() => {
           this.$router.push({ name: 'nested' })
+        })
+        .catch(err => {
+          console.log(err)
+          console.log(err.response.data)
+
+          this.error = err.response.data[0]
         })
 
       // debugger

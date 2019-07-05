@@ -11,6 +11,7 @@ import {
   faMinus
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import axios from 'axios'
 
 library.add(faEdit)
 library.add(faGripLines)
@@ -23,5 +24,28 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  created() {
+    var userString = localStorage.getItem('user')
+    if (userString === 'null') {
+      userString = null
+    }
+    // debugger
+    if (userString) {
+      const userData = JSON.parse(userString)
+      this.$store.commit('SET_USER_DATA', userData)
+    }
+    axios.interceptors.response.use(
+      response => {
+        console.log('successful intercept')
+        return response
+      },
+      error => {
+        if (error.response.status === 401) {
+          this.$store.dispatch('logout')
+        }
+        return Promise.reject(error)
+      }
+    )
+  },
   render: h => h(App)
 }).$mount('#app')

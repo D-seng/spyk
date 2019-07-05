@@ -12,7 +12,7 @@
             @force-renumber="forceRenumber"
           />
         </v-flex>
-        <v-flex xs6 :key="listKey" id="top">
+        <v-flex :key="listKey" xs6 id="top">
           <RetrieveLeases @get-lease="getLease"></RetrieveLeases>
           <v-btn @click="undo">Undo</v-btn>
           <v-btn @click="redo">Redo</v-btn>
@@ -20,12 +20,12 @@
             <NestedDraggable
               :list="lease"
               @renumber-handler="renumberX(lease)"
-              @add-to-stack="addToStack"
               :ce="true"
+              @add-to-stack="addToStack"
               @show-editor="edit"
               @update-lse="updateLse"
-              @find-landing="findLanding"
               :counter="this.counter"
+              @find-landing="findLanding"
             />
           </div>
         </v-flex>
@@ -41,10 +41,10 @@
       <Editor
         :section="this.section.toString()"
         :verbiage="this.content"
-        :elId="this.elId"
+        :el-id="this.elId"
         :key="editorKey"
-        @sync-content="syncContent"
         :newContent="content.text"
+        @sync-content="syncContent"
       ></Editor>
     </p>
     <p v-else>showDialog is false</p>
@@ -65,7 +65,7 @@ const uuidv4 = require('uuid/v4')
 
 var k = 0
 export default {
-  name: 'nested-example',
+  name: 'NestedExample',
   display: 'Nested',
   order: 19,
 
@@ -107,6 +107,15 @@ export default {
       return this.feeder
     }
   },
+  beforeCreate() {
+    // console.log('beforeCreate')
+    // fetch('http://localhost:3000' + '/api/user', {
+    //   method: 'GET'
+    // }).then(res => {
+    //   // console.log(res)
+    //   console.log(res.json())
+    // })
+  },
   methods: {
     // singleElement(ev) {
     //   // debugger
@@ -121,6 +130,7 @@ export default {
       var arrSec = []
       var k
       var newObj
+      debugger
 
       if (this.$store.state.vxClone) {
         newObj = this.$store.state.vxClone
@@ -459,15 +469,6 @@ export default {
       this.reorder = arrToReorder
       this.saveWithIds = swid
     }
-  },
-  beforeCreate() {
-    // console.log('beforeCreate')
-    // fetch('http://localhost:3000' + '/api/user', {
-    //   method: 'GET'
-    // }).then(res => {
-    //   // console.log(res)
-    //   console.log(res.json())
-    // })
   },
 
   created() {

@@ -11,40 +11,42 @@ import CloneExample from './components/CloneExample.vue'
 import NestedExample from './components/NestedExample.vue'
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
+
   // base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: { requiresAuth: false }
     },
     {
       path: '/settings',
       name: 'settings',
-      component: Settings
+      component: Settings,
+      meta: { requiresAuth: true }
     },
     {
       path: '/editor',
       name: 'editor',
-      component: Editor
+      component: Editor,
+      meta: { requiresAuth: true }
     },
     {
       path: '/leases',
       name: 'leases',
-      component: Leases
+      component: Leases,
+      meta: { requiresAuth: true }
     },
     {
       path: '/nested',
       name: 'nested',
-      component: NestedExample
+      component: NestedExample,
+      meta: { requiresAuth: true }
     },
-    {
-      path: '/cloneExample',
-      name: 'cloneExample',
-      component: CloneExample
-    },
+
     {
       path: '/register',
       name: 'register',
@@ -57,3 +59,22 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // debugger
+  let loggedIn = localStorage.getItem('user')
+  if (loggedIn === 'null') {
+    loggedIn = null
+  }
+  // loggedIn = !!loggedIn
+  // loggedIn = !loggedIn
+
+  const m = to.matched.some(r => r.meta.requiresAuth)
+  if (m && !loggedIn) {
+    next('/')
+  } else {
+    next()
+  }
+})
+
+export default router

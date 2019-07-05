@@ -51,7 +51,6 @@ export default {
           this.$router.push({ name: 'nested' })
         })
         .catch(err => {
-          debugger
           console.log(err.response.data)
 
           this.error = err.response.data

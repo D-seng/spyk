@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import EventServiceAlt from '../services/EventServiceAlt'
 import axios from 'axios'
+import { stat } from 'fs'
 
 Vue.use(Vuex)
 
@@ -28,6 +29,10 @@ export default new Vuex.Store({
       axios.defaults.headers.common[
         'Authorization'
       ] = `Bearer ${userData.token}`
+    },
+    LOGOUT() {
+      localStorage.removeItem('user')
+      location.reload()
     }
   },
   actions: {
@@ -41,7 +46,6 @@ export default new Vuex.Store({
     register({ commit }, user) {
       // debugger
       return EventServiceAlt.register(user).then(response => {
-        debugger
         console.log(JSON.stringify(response.data))
         commit('SET_USER_DATA', response)
       })
@@ -52,6 +56,9 @@ export default new Vuex.Store({
         // debugger
         commit('SET_USER_DATA', response)
       })
+    },
+    logout({ commit }) {
+      commit('LOGOUT')
     }
   },
   getters: {

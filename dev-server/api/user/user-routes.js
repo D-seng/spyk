@@ -45,7 +45,23 @@ router.post('/auth', async (req, res) => {
 router.post('/register', async (req, res) => {
   const salt = await bcryptjs.genSalt(10)
   const hash = await bcryptjs.hash(req.body.password, salt)
+  // let user = await User.findOne({ email: req.body.email })
+
+  var errorsToSend = []
+
+  const { error } = validate(req.body)
+  if (error) {
+    errorsToSend.push(error.details[0].message)
+  }
+
   let user = await User.findOne({ email: req.body.email })
+  if (user) {
+    errorsToSend.push('Email already registered.')
+  }
+
+  if (errorsToSend.length > 0) {
+    return res.status(401).send(errorsToSend)
+  }
 
   if (!user) {
     let user = new User({
@@ -90,8 +106,6 @@ router.post('/register', async (req, res) => {
     // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
     // SEND EMAIL.
-  } else {
-    return res.status(400).send('User already in database')
   }
 })
 function validate(req) {

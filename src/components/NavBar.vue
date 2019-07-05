@@ -7,13 +7,18 @@
           @click="drawer = !drawer"
         ></v-toolbar-side-icon>
       </div>
+
       <v-toolbar-title class="headline text-lowercase">
         <span class="font-weight-light text-uppercase">AUD</span>
       </v-toolbar-title>
+
       <v-spacer></v-spacer>
-      <div v-if="loggedIn">
-        <v-btn>SIGN OUT</v-btn>
-      </div>
+      <router-link v-if="loggedIn" to="/">
+        <v-btn @click="logout">SIGN OUT</v-btn>
+      </router-link>
+      <router-link v-else to="/auth" class="button">
+        <v-btn>LOG IN</v-btn>
+      </router-link>
     </v-toolbar>
     <v-navigation-drawer v-model="drawer" app>
       <v-list>
@@ -39,6 +44,7 @@
 
 <script>
 import { authComputed } from '@/vuex/helpers.js'
+import { debuglog } from 'util'
 export default {
   data() {
     return {
@@ -54,6 +60,13 @@ export default {
       ]
     }
   },
+  methods: {
+    logout() {
+      this.$router.push('/')
+      this.$store.dispatch('logout')
+    }
+  },
+
   computed: {
     ...authComputed
   }
