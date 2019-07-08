@@ -1,7 +1,5 @@
-import store from '@/vuex/store'
+import store from '../vuex/store'
 
-// Vue.use(Vuex)
-var inSingleMode = []
 export default {
   styleNode(el, addStyle) {
     // let el = document.getElementById(elId)
@@ -12,62 +10,57 @@ export default {
       el.children[0].children[0].style = 'background-color: none'
     }
   },
-  dblClickHandler(ev, list) {
-    // debugger
+  dblClickHandler(ev, sourceList) {
+    debugger
     ev.stopPropagation()
     var el = ev.target
-    var result
 
-    // debugger
-    console.log('ev.target')
-    console.log(ev.target)
     do {
       el = el.parentNode
     } while (el.nodeName != 'LI')
-    // debugger
 
-    // Use Vuex for inSingleMode?
-    var dblClicked = inSingleMode.filter(item => item[0] === el.id)
+    var dblClickedAlready = store.state.vxClones.filter(
+      item => item[0] === el.id
+    )
 
-    if (dblClicked.length === 0) {
-      // then add
+    // Check if it's already been double-clicked.
+    if (dblClickedAlready.length === 0) {
+      // If it hasn't been double-clicked, then:
+      //    1. Retrieve the element from the source list that's rendered in the DOM.
+      //    2. Because the element will need to have its
+      //       subsections hidden when dragged, overriding
+      //       the default behavior of nestedDraggable, we
+      //       need to save any subsections so that later, upon dragging, they can
+      //       be found and hidden.
+      //    3. Add the element id to the vxClones array; include
+      //       the subsections in the second item of the nested two-item array.
 
-      result = list.filter(item => item.id === el.id)
-      if (result.length > 0) {
-        if (result[0].subsections.length > 0) {
-          var subsectionsArray = []
-          // this.buildSubsectionsArray(result[0].subsections)
-          result[0].subsections.forEach(item => {
-            subsectionsArray.push(item.id)
-          })
-        }
-        inSingleMode.push([el.id, subsectionsArray])
+      var result = sourceList.filter(item => item.id === el.id)
+      // if (result.length > 0) {
+      if (result[0].subsections.length > 0) {
+        var subsectionsArray = []
+        result[0].subsections.forEach(item => {
+          subsectionsArray.push(item.id)
+        })
       }
-
+      store.dispatch('stowClone', [el.id, subsectionsArray])
+      // }
       this.styleNode(el, true)
     } else {
-      // then remove
-      // debugger
       var indexOfId
-      result = inSingleMode.filter(item => item[0] === el.id)
-      for (var i = 0; i < inSingleMode.length; i++) {
-        if (inSingleMode[i][0] === el.id) {
+      // result = this.$store.state.vxClones.filter(item => item[0] === el.id)
+      for (var i = 0; i < store.state.vxClones.length; i++) {
+        if (store.state.vxClones[i][0] === el.id) {
           indexOfId = i
           break
         }
       }
-      // var indexOfId = this.inSingleMode.indexOf(result)
-      inSingleMode.splice(indexOfId, 1)
-
+      store.state.vxClones.splice(indexOfId, 1)
       this.styleNode(el, false)
     }
   },
   dragStartHandler(evt) {
-    // debugger
-    // console.log('evt.target section')
-    // console.log(evt.target.children[0].children[0].children[0].innerText)
-    // debugger
-    var result = inSingleMode.filter(item => item[0] === evt.target.id)
+    var result = store.state.vxClones.filter(item => item[0] === evt.target.id)
     if (result.length > 0) {
       // debugger
       var el
@@ -83,7 +76,7 @@ export default {
   },
   dragEndHandler(evt) {
     // alert('dragend')
-    var result = inSingleMode.filter(item => item[0] === evt.target.id)
+    var result = store.state.vxClones.filter(item => item[0] === evt.target.id)
     if (result.length > 0) {
       // debugger
       var el
@@ -99,7 +92,7 @@ export default {
   },
   cloneHandler(evt) {
     // debugger
-    var result = inSingleMode.filter(item => item[0] === evt.id)
+    var result = store.state.vxClones.filter(item => item[0] === evt.id)
     if (result.length > 0) {
       var vxClone = {
         id: evt.id,
@@ -110,7 +103,8 @@ export default {
       console.log('evt.clone')
       console.log(evt.clone)
       // debugger
-      store.dispatch('setNewClone', vxClone)
+      // DO WE NEED THIS NOW, AFTER PUTTING THE ARRAY OF DBLS INTO VXCLONES?
+      store.dispatch('setClone', vxClone)
     }
   }
 }

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import EventServiceAlt from '../services/EventServiceAlt'
 import axios from 'axios'
-import { stat } from 'fs'
+import { state } from 'fs'
 
 Vue.use(Vuex)
 
@@ -11,14 +11,12 @@ export default new Vuex.Store({
   state: {
     user: null,
     loggedIn: null,
-    list: [],
     vxClone: null,
-    inSingleMode: []
+    vxClones: [],
+    feeder: [],
+    lease: []
   },
   mutations: {
-    SET_LIST(state, value) {
-      state.list = value
-    },
     SET_CLONE(state, value) {
       // debugger
       state.vxClone = value
@@ -33,16 +31,27 @@ export default new Vuex.Store({
     LOGOUT() {
       localStorage.removeItem('user')
       location.reload()
+    },
+    UPDATE_LEASE(state, lse) {
+      state.lease = lse
+    },
+    DELETE_CLONE(state) {
+      state.vxClone = null
+    },
+    SET_LEASE(state, lse) {
+      state.lease = lse
+    },
+    SET_FEEDER(state, fdr) {
+      state.feeder = fdr
+    },
+    STOW_CLONE(state, itemAndSubsections) {
+      state.vxClones.push(itemAndSubsections)
+    },
+    REMOVE_CLONES(state, id) {
+      var result = state.vxClones.filter(item => item[0] === id)
     }
   },
   actions: {
-    storeList({ state, commit }, value) {
-      commit('SET_LIST', value)
-    },
-    setNewClone({ state, commit }, value) {
-      // debugger
-      commit('SET_CLONE', value)
-    },
     register({ commit }, user) {
       // debugger
       return EventServiceAlt.register(user).then(response => {
@@ -59,6 +68,28 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       commit('LOGOUT')
+    },
+    updateLease({ commit }, lse) {
+      commit('UPDATE_LEASE', lse)
+    },
+    setLease({ commit }, lse) {
+      commit('SET_LEASE', lse)
+    },
+    setFeeder({ commit }, fdr) {
+      commit('SET_FEEDER', fdr)
+    },
+    stowClone({ commit }, itemAndSubsections) {
+      commit('STOW_CLONE', itemAndSubsections)
+    },
+    removeClone({ commit }, index) {
+      commit('REMOVE_CLONE', index)
+    },
+    setClone({ state, commit }, value) {
+      // debugger
+      commit('SET_CLONE', value)
+    },
+    deleteClone({ state, commit }) {
+      commit('DELETE_CLONE')
     }
   },
   getters: {

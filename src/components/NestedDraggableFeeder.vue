@@ -12,8 +12,8 @@
       >
         <li
           v-for="el in liveList"
-          :key="el.section"
           :id="el.id"
+          :key="el.section"
           @dblclick="dblClickHandler"
           @dragstart="dragStartHandler"
           @dragend="dragEndHandler"
@@ -58,14 +58,14 @@ export default {
   name: 'NestedDraggableFeeder',
   display: 'Clone',
   order: 3,
+  components: {
+    draggable
+  },
   props: {
     list1: {
       required: false,
       type: Array
     }
-  },
-  components: {
-    draggable
   },
 
   data() {
@@ -78,8 +78,8 @@ export default {
       return this.list1
     }
   },
+  mounted() {},
   methods: {
-    inertDblClick() {},
     dblClickHandler(ev) {
       // console.log(ev.target.id.substring(0, 7))
       // debugger
@@ -142,8 +142,7 @@ export default {
       this.$emit('show-editor', sectionLocked, verbiageLocked, elIdLocked)
       this.$emit('force-rerender')
     }
-  },
-  mounted() {}
+  }
 }
 </script>
 

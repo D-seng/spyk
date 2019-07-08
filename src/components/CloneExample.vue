@@ -9,7 +9,7 @@
         :clone="cloneDog"
         @change="log"
       >
-        <div class="list-group-item" v-for="element in list1" :key="element.id">
+        <div v-for="element in list1" class="list-group-item" :key="element.id">
           {{ element.name }}
         </div>
       </draggable>
@@ -23,7 +23,7 @@
         group="people"
         @change="log"
       >
-        <div class="list-group-item" v-for="element in list2" :key="element.id">
+        <div v-for="element in list2" class="list-group-item" :key="element.id">
           {{ element.name }}
         </div>
       </draggable>
@@ -39,7 +39,7 @@
 import draggable from 'vuedraggable'
 let idGlobal = 8
 export default {
-  name: 'custom-clone',
+  name: 'CustomClone',
   display: 'Custom Clone',
   order: 3,
   components: {

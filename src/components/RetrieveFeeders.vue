@@ -1,6 +1,6 @@
 <template>
   <v-select
-    v-on:change="selectFeeder"
+    @change="selectFeeder"
     :items="items"
     label="Feeder Clauses"
   ></v-select>
@@ -16,14 +16,6 @@ export default {
       itemIds: []
     }
   },
-  methods: {
-    selectFeeder(a) {
-      var idIndex = this.items.indexOf(a)
-      var id = this.itemIds[idIndex]
-      console.log(id)
-      this.$emit('get-feeders', id)
-    }
-  },
   created() {
     EventServiceAlt.getFeeders().then(response => {
       console.log('feeder')
@@ -37,6 +29,14 @@ export default {
 
       // this.addToStack()
     })
+  },
+  methods: {
+    selectFeeder(a) {
+      var idIndex = this.items.indexOf(a)
+      var id = this.itemIds[idIndex]
+      console.log(id)
+      this.$emit('get-feeders', id)
+    }
   }
 }
 </script>

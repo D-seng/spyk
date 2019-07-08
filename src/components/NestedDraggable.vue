@@ -3,68 +3,48 @@
     <div>
       <draggable
         class="dragArea"
-        chosenClass="chosen"
-        ghostClass="dropTarget"
+        chosen-class="chosen"
+        ghost-class="dropTarget"
         animation="250"
         tag="ul"
         :list="lse"
+        :group="{ name: 'lseAndFeeder', put: true }"
         @change="renumberHandler"
         @end="addToStackHandler"
         @add="addHandler"
         @input="fireInput"
-        :group="{ name: 'lseAndFeeder', put: true }"
       >
         <li
           v-for="el in list"
-          :key="el.section"
           :id="el.id"
+          :key="el.section"
           @dblclick="dblClickHandler"
         >
-          <div>
-            <div>
-              <!-- <div :id="el.id + 'sv'" class="m-fadeOut">
-              <font-awesome-icon
-                icon="save"
-                class="far fa-save fa-lg"
-                @click="updateLseHandler(el.id)"
-              />
-            </div> -->
-              <p :id="'sec-' + el.id">
-                <span
-                  ><font-awesome-icon
-                    icon="edit"
-                    class="fas fa-edit fa-lg il"
-                    @click="editX(el.section, el.verbiage, el.id)"/></span
-                >{{ el.section }}
-              </p>
-              <p
-                v-html="el.verbiage"
-                contenteditable="true"
-                :id="el.id"
-                @input="showSaveIcon(el.id)"
-              ></p>
-            </div>
-          </div>
-
+          <Section :el="el"></Section>
           <NestedDraggable
             :list="el.subsections"
+            :ce="ce"
+            group="lseAndFeeder"
+            :counter="'subsequent-' + el.id"
             @renumber-handler="renumberHandler"
             @add-to-stack="addToStackHandler"
-            :ce="ce"
             @show-editor="editX('subsequent')"
             @update-lse="updateLseHandler('subsequent')"
-            group="lseAndFeeder"
             @find-landing="findLandingX"
-            :counter="'subsequent-' + el.id"
           />
         </li>
       </draggable>
+    </div>
+
+    <div v-if="isSectionOpen">
+      <router-view />
     </div>
   </div>
 </template>
 <script type="module">
 // v-bind:class="{ active: isActive }"
 import draggable from 'vuedraggable'
+import Section from '@/components/Section'
 import clickAndDragServices from '@/services/ClickAndDragServices.js'
 
 const uuidv1 = require('uuid/v1')
@@ -75,6 +55,10 @@ var elIdLocked = null
 export default {
   name: 'NestedDraggable',
   display: 'Clone',
+  components: {
+    draggable,
+    Section
+  },
   props: {
     list: {
       required: true,
@@ -89,9 +73,6 @@ export default {
       type: String
     }
   },
-  components: {
-    draggable
-  },
 
   data() {
     return {
@@ -104,7 +85,14 @@ export default {
       singleMode: false
     }
   },
-
+  computed: {
+    liveList() {
+      return list
+    },
+    isSectionOpen() {
+      return this.$route.name === 'section'
+    }
+  },
   methods: {
     fireInput() {
       alert('input')
@@ -199,11 +187,6 @@ export default {
         verbiageLocked = verbiage
         elIdLocked = elId
       }
-      // else {
-      //   id = idLocked
-      //   verbiage = verbiageLocked
-      // }
-      // alert('idLocked ' + id)
 
       this.$emit('show-editor', sectionLocked, verbiageLocked, elIdLocked)
       this.$emit('force-rerender')
