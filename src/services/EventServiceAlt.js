@@ -19,6 +19,13 @@ export default {
     return apiClient.get('/snippets/' + id)
   },
 
+  getClause(id) {
+    ;``
+    return apiClient.get('/snippets/' + id, {
+      id: '4f88a420-5825-11e9-8565-ad52d0bb74d6'
+    })
+  },
+
   postSnippet(snippet) {
     return apiClient.post('/snippets', snippet)
   },

@@ -35,6 +35,7 @@
     <v-btn @click="put">put</v-btn>
     <v-btn @click="post">post</v-btn>
     <v-btn @click="genId">genId</v-btn>
+    <v-btn @click="getClause">getClause</v-btn>
 
     <p v-if="showDialog">
       showDialog is true
@@ -134,6 +135,14 @@ export default {
         // this.$store.commit('SET_LIST', this.feeder)
       })
     },
+    getClause() {
+      // 5cb278977b039e5714dcd661
+      // 4f88a420-5825-11e9-8565-ad52d0bb74d6
+      debugger
+      EventServiceAlt.getClause('5cb278977b039e5714dcd661').then(response => {
+        console.log(response)
+      })
+    },
     addUniqueIds(list) {
       list.forEach(item => {
         console.log(item)
@@ -164,6 +173,13 @@ export default {
         console.log(response.data)
       })
     },
+    getId() {
+      debugger
+      EventServiceAlt.getClause('aa').then(response => {
+        console.log(response)
+      })
+    },
+
     copy(o) {
       var output
       var v

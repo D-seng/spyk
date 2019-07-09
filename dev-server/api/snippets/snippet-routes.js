@@ -22,6 +22,19 @@ router.get('/snippets', async (req, res) => {
   //.populate('contributor', 'username', 'user')
 })
 
+// const cursor = db.collection('inventory').find({
+//   tags: 'red'
+// })
+
+// /car/make/12/model?color=mintgreen&doors=4
+
+router.getC('/snippets/:id', async (req, res) => {
+  const result = await Snippet.find({
+    id: '4f88a420-5825-11e9-8565-ad52d0bb74d6'
+  })
+  res.send(result)
+})
+
 router.get('/snippets/:id', async (req, res) => {
   // res.send('get a snippet')
 
