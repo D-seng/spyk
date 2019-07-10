@@ -20,10 +20,9 @@ export default {
   },
 
   getClause(id) {
-    ;``
-    return apiClient.get('/snippets/' + id, {
-      id: '4f88a420-5825-11e9-8565-ad52d0bb74d6'
-    })
+    debugger
+    var textId = '4f88a420-5825-11e9-8565-ad52d0bb74d6'
+    return apiClient.get('/snippets/' + id + '/:' + textId)
   },
 
   postSnippet(snippet) {

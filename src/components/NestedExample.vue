@@ -138,9 +138,9 @@ export default {
     getClause() {
       // 5cb278977b039e5714dcd661
       // 4f88a420-5825-11e9-8565-ad52d0bb74d6
-      debugger
+      // debugger
       EventServiceAlt.getClause('5cb278977b039e5714dcd661').then(response => {
-        console.log(response)
+        console.log(response.data)
       })
     },
     addUniqueIds(list) {

@@ -28,9 +28,9 @@ router.get('/snippets', async (req, res) => {
 
 // /car/make/12/model?color=mintgreen&doors=4
 
-router.getC('/snippets/:id', async (req, res) => {
+router.get('/snippets/:id/:id', async (req, res) => {
   const result = await Snippet.find({
-    id: '4f88a420-5825-11e9-8565-ad52d0bb74d6'
+    id: '4f88a420-5825-11e9-8565-ad52d0bb7'
   })
   res.send(result)
 })
@@ -39,7 +39,7 @@ router.get('/snippets/:id', async (req, res) => {
   // res.send('get a snippet')
 
   const snippet = await Snippet.findById(req.params.id)
-  if (!snippet) return res.status(404).send('Snippet not found')
+  if (!snippet) return res.status(401).send('Snippet not found')
   res.send(snippet)
 })
 
