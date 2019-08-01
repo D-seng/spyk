@@ -59,6 +59,7 @@ import NestedDraggable from '@/components/NestedDraggable'
 import NestedDraggableFeeder from '@/components/NestedDraggableFeeder'
 import EventServiceAlt from '@/services/EventServiceAlt.js'
 import cloneDeep from 'lodash.clonedeep'
+import flattenDeep from 'lodash.flattendeep'
 import Editor from './Editor.vue'
 import RetrieveLeases from './RetrieveLeases.vue'
 import RetrieveFeeders from './RetrieveFeeders.vue'
@@ -116,6 +117,11 @@ export default {
       EventServiceAlt.getSnippet(id).then(response => {
         this.id = response.data._id
         var lease = response.data.text
+        console.log(JSON.stringify(response.data.text, null, 2))
+        console.log('flatten')
+        console.log(flattenDeep(JSON.parse(JSON.stringify(response.data.text))))
+        console.log(flattenDeep([1, [2, [3, [4]], 5]]))
+        console.log(flattenDeep(JSON.stringify(response.data.text)))
         this.addToStack()
         ReorderService.renumber(lease)
         this.$store.dispatch('setLease', lease)
@@ -127,6 +133,8 @@ export default {
     getFeeders(id) {
       EventServiceAlt.getFeeder(id).then(response => {
         this.idFeeder = response.data._id
+        // debugger
+
         var feeder = response.data.text
         this.intent = response.data.intent
         ReorderService.renumber(feeder)

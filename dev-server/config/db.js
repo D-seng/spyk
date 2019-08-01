@@ -4,7 +4,7 @@ const atlas =
   'mongodb+srv://darren-user:minori123@cluster1-yxsma.mongodb.net/test?retryWrites=true'
 
 module.exports = function connectToDb() {
-mongoose
+  mongoose
     .connect(atlas, { useNewUrlParser: true })
     .then(() => console.log('Connected to MongoDB...'))
     .catch(err => console.error('Could not connect to MongoDB...', err))
