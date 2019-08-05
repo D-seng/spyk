@@ -3,7 +3,17 @@
     <div>
       <p :id="'sec-' + el.id">
         <span
-          ><font-awesome-icon icon="edit" class="fas fa-edit fa-lg il"/></span
+          ><font-awesome-icon
+            icon="edit"
+            class="fas fa-edit fa-lg il"
+            @click="
+              toggleEditor({
+                id: el.id,
+                elId: el.id,
+                content: el.verbiage,
+                section: el.section
+              })
+            "/></span
         >{{ el.section }}
       </p>
       <p
@@ -17,6 +27,9 @@
 </template>
 
 <script type="module">
+import { eventBus } from '@/main'
+// import { type } from 'os'
+
 export default {
   name: 'LineItem',
 
@@ -24,7 +37,15 @@ export default {
   components: {},
   props: {
     el: {
-      required: true
+      required: true,
+      type: Object
+    }
+  },
+  methods: {
+    toggleEditor(editorData) {
+      editorData.showDialog = !editorData.showDialog
+      debugger
+      eventBus.$emit('toggleEditor', editorData)
     }
   }
 }

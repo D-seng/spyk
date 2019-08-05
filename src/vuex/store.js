@@ -14,9 +14,21 @@ export default new Vuex.Store({
     vxClone: null,
     vxClones: [],
     feeder: [],
-    lease: []
+    lease: [],
+    editorInfo: {
+      id: null,
+      elId: null,
+      content: null,
+      showDialog: null
+    }
   },
   mutations: {
+    SET_EDITOR_DATA(state, edInfo) {
+      state.editorInfo.id = edInfo.id
+      state.editorInfo.elId = edInfo.elId
+      state.editorInfo.content = edInfo.content
+      state.editorInfo.section = edInfo.section
+    },
     SET_CLONE(state, value) {
       // debugger
       state.vxClone = value
@@ -52,6 +64,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    setEditorData({ commit }, editorData) {
+      editorData.showDialog = !editorData.showDialog
+      commit('SET_EDITOR_DATA', editorData)
+    },
     register({ commit }, user) {
       // debugger
       return EventServiceAlt.register(user).then(response => {

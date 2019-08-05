@@ -20,7 +20,7 @@
           :key="el.section"
           @dblclick="dblClickHandler"
         >
-          <Section :el="el"></Section>
+          <Section :el="el" @show-editor="showEditor"></Section>
           <NestedDraggable
             :list="el.subsections"
             :ce="ce"
@@ -169,6 +169,9 @@ export default {
     addToStackHandler() {
       // debugger
       this.$emit('add-to-stack')
+    },
+    showEditor() {
+      this.$emit('show-editor')
     },
     updateLseHandler(elId) {
       // alert(elId)

@@ -37,18 +37,18 @@
     <v-btn @click="genId">genId</v-btn>
     <v-btn @click="getClause">getClause</v-btn>
 
-    <p v-if="showDialog">
-      showDialog is true
-      <Editor
+    <div class="modalshade">
+      <router-view />
+      <!-- showDialog is true -->
+      <!-- <Editor
         :key="editorKey"
-        :section="section.toString()"
-        :verbiage="content"
-        :el-id="elId"
-        :new-content="content.text"
+        :section="editorData.section.toString()"
+        :verbiage="editorData.content"
+        :el-id="editorData.elId"
         @sync-content="syncContent"
-      ></Editor>
-    </p>
-    <p v-else>showDialog is false</p>
+      ></Editor> -->
+    </div>
+    <!-- <p v-else>showDialog is false</p> -->
 
     <!-- <rawDisplayer class="col-0" :value="list" title="List" /> -->
   </div>
@@ -58,14 +58,14 @@
 import NestedDraggable from '@/components/NestedDraggable'
 import NestedDraggableFeeder from '@/components/NestedDraggableFeeder'
 import EventServiceAlt from '@/services/EventServiceAlt.js'
+import DbArrayServices from '@/services/DbArrayServices.js'
 import cloneDeep from 'lodash.clonedeep'
-import flattenDeep from 'lodash.flattendeep'
 import Editor from './Editor.vue'
 import RetrieveLeases from './RetrieveLeases.vue'
 import RetrieveFeeders from './RetrieveFeeders.vue'
 import ReorderService from '@/services/ReorderService'
-import { debuglog } from 'util'
 import Mongoose from 'mongoose'
+import { eventBus } from '@/main'
 
 export default {
   name: 'NestedExample',
@@ -94,7 +94,14 @@ export default {
       newContent: '',
       start: 'start',
       evt: null,
-      counter: '1a'
+      counter: '1a',
+      editorData: {
+        id: null,
+        elId: null,
+        content: null,
+        section: null,
+        showDialog: false
+      }
     }
   },
   computed: {
@@ -103,7 +110,18 @@ export default {
     },
     lease() {
       return this.$store.state.lease
+    },
+    isEditorOpen() {
+      debugger
+      console.log(this.$route.name)
+      return this.$route.name === '/nested/edit'
     }
+  },
+  created() {
+    eventBus.$on('toggleEditor', editorData => {
+      this.editorData = editorData
+      this.editorKey += 1
+    })
   },
   methods: {
     genId() {
@@ -117,11 +135,11 @@ export default {
       EventServiceAlt.getSnippet(id).then(response => {
         this.id = response.data._id
         var lease = response.data.text
-        console.log(JSON.stringify(response.data.text, null, 2))
-        console.log('flatten')
-        console.log(flattenDeep(JSON.parse(JSON.stringify(response.data.text))))
-        console.log(flattenDeep([1, [2, [3, [4]], 5]]))
-        console.log(flattenDeep(JSON.stringify(response.data.text)))
+        // debugger
+        lease = DbArrayServices.createNested(lease)
+        // console.log(JSON.stringify(response.data.text, null, 2))
+        // debugger
+        console.log(lease)
         this.addToStack()
         ReorderService.renumber(lease)
         this.$store.dispatch('setLease', lease)
@@ -167,14 +185,25 @@ export default {
       ReorderService.schArr(this.lease, this.elId)
     },
     edit(id, verbiage, elId) {
-      this.showDialog = true
-      this.section = id
-      this.elId = elId
-      this.content = verbiage
+      // this.showDialog = true
+      // this.section = id
+      // this.elId = elId
+      // this.content = verbiage
       this.editorKey += 1
     },
     post() {
-      console.log(JSON.stringify(this.bLease))
+      debugger
+      var lseTxt = DbArrayServices.flatten(this.lease)
+      var lse = {
+        tenant: 'tst tenant',
+        landlord: '65th & Broadway, L.P',
+        property: '65th Building',
+        text: lseTxt
+      }
+      debugger
+      EventServiceAlt.postSnippet(lse).then(response => {
+        console.log(response.data)
+      })
     },
     put() {
       EventServiceAlt.putSnippet(this.lease, this.id).then(response => {
@@ -247,5 +276,8 @@ export default {
 <style scoped>
 .selected {
   background-color: rgba(180, 100, 100, 0.808);
+}
+.modalshade {
+  background-color: aquamarine;
 }
 </style>

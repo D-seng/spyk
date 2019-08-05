@@ -7,7 +7,6 @@ import Editor from './components/Editor.vue'
 import Leases from './components/Leases.vue'
 import Authenticate from './components/Authenticate.vue'
 import CloneExample from './components/CloneExample.vue'
-import Section from './components/Section.vue'
 
 import NestedExample from './components/NestedExample.vue'
 Vue.use(Router)
@@ -30,29 +29,22 @@ const router = new Router({
       meta: { requiresAuth: true }
     },
     {
-      path: '/editor',
-      name: 'editor',
-      component: Editor,
-      meta: { requiresAuth: true }
-    },
-    {
       path: '/leases',
       name: 'leases',
       component: Leases,
-      meta: { requiresAuth: true },
-      children: [
-        {
-          path: '/section/:id',
-          name: 'section',
-          component: Section
-        }
-      ]
+      meta: { requiresAuth: true }
     },
     {
       path: '/nested',
       name: 'nested',
       component: NestedExample,
-      meta: { requiresAuth: true }
+      children: [
+        {
+          path: '/edit',
+          name: 'edit',
+          component: Editor
+        }
+      ]
     },
 
     {
