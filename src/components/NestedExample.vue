@@ -1,47 +1,50 @@
 <template>
   <div>
-    <v-container grid-list-md text-xs-left>
-      <v-layout row wrap>
-        <v-flex xs6>
-          <!-- <p>{{ list }}</p> -->
-          <RetrieveFeeders @get-feeders="getFeeders"></RetrieveFeeders>
-          <h4>{{ intent }}</h4>
-          <NestedDraggableFeeder
-            :list1="feeder"
-            @show-editor="edit"
-            @force-renumber="forceRenumber"
-          />
-        </v-flex>
-        <v-flex id="top" :key="listKey" xs6>
-          <RetrieveLeases @get-lease="getLease"></RetrieveLeases>
-          <v-btn @click="undo">Undo</v-btn>
-          <v-btn @click="redo">Redo</v-btn>
-          <div id="top">
-            <NestedDraggable
-              :list="lease"
-              :ce="true"
-              :counter="counter"
-              @renumber-handler="renumber(lease)"
-              @add-to-stack="addToStack"
+    <div :disabled="isEditorOpen">
+      <v-container grid-list-md text-xs-left>
+        <v-layout row wrap>
+          <v-flex xs6>
+            <!-- <p>{{ list }}</p> -->
+            <RetrieveFeeders @get-feeders="getFeeders"></RetrieveFeeders>
+            <h4>{{ intent }}</h4>
+            <NestedDraggableFeeder
+              :list1="feeder"
               @show-editor="edit"
-              @update-lse="updateLse"
-              @find-landing="findLanding"
+              @force-renumber="forceRenumber"
             />
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-container>
+          </v-flex>
+          <v-flex id="top" :key="listKey" xs6>
+            <RetrieveLeases @get-lease="getLease"></RetrieveLeases>
+            <v-btn @click="undo">Undo</v-btn>
+            <v-btn @click="redo">Redo</v-btn>
+            <div id="top">
+              <NestedDraggable
+                :list="lease"
+                :ce="true"
+                :counter="counter"
+                @renumber-handler="renumber(lease)"
+                @add-to-stack="addToStack"
+                @show-editor="edit"
+                @update-lse="updateLse"
+                @find-landing="findLanding"
+              />
+            </div>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </div>
 
     <v-btn @click="put">put</v-btn>
     <v-btn @click="post">post</v-btn>
     <v-btn @click="genId">genId</v-btn>
     <v-btn @click="getClause">getClause</v-btn>
 
-    <div class="modalshade">
+    <div v-if="isEditorOpen" class="modalshade">
       <router-view />
-      <!-- showDialog is true -->
+
       <!-- <Editor
         :key="editorKey"
+
         :section="editorData.section.toString()"
         :verbiage="editorData.content"
         :el-id="editorData.elId"
@@ -114,7 +117,7 @@ export default {
     isEditorOpen() {
       debugger
       console.log(this.$route.name)
-      return this.$route.name === '/nested/edit'
+      return this.$route.name === 'edit'
     }
   },
   created() {
@@ -279,5 +282,8 @@ export default {
 }
 .modalshade {
   background-color: aquamarine;
+}
+.disable:disabled {
+  background-color: #ccc;
 }
 </style>

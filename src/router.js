@@ -7,6 +7,7 @@ import Editor from './components/Editor.vue'
 import Leases from './components/Leases.vue'
 import Authenticate from './components/Authenticate.vue'
 import CloneExample from './components/CloneExample.vue'
+import TestComponent from './components/TestComponent.vue'
 
 import NestedExample from './components/NestedExample.vue'
 Vue.use(Router)
@@ -40,13 +41,12 @@ const router = new Router({
       component: NestedExample,
       children: [
         {
-          path: '/edit',
+          path: 'edit',
           name: 'edit',
           component: Editor
         }
       ]
     },
-
     {
       path: '/register',
       name: 'register',
