@@ -1,37 +1,32 @@
 <template>
   <div>
     <div :disabled="isEditorOpen">
-      <v-container grid-list-md text-xs-left>
-        <v-layout row wrap>
-          <v-flex xs6>
-            <!-- <p>{{ list }}</p> -->
-            <RetrieveFeeders @get-feeders="getFeeders"></RetrieveFeeders>
-            <h4>{{ intent }}</h4>
-            <NestedDraggableFeeder
-              :list1="feeder"
-              @show-editor="edit"
-              @force-renumber="forceRenumber"
-            />
-          </v-flex>
-          <v-flex id="top" :key="listKey" xs6>
-            <RetrieveLeases @get-lease="getLease"></RetrieveLeases>
-            <v-btn @click="undo">Undo</v-btn>
-            <v-btn @click="redo">Redo</v-btn>
-            <div id="top">
-              <NestedDraggable
-                :list="lease"
-                :ce="true"
-                :counter="counter"
-                @renumber-handler="renumber(lease)"
-                @add-to-stack="addToStack"
-                @show-editor="edit"
-                @update-lse="updateLse"
-                @find-landing="findLanding"
-              />
-            </div>
-          </v-flex>
-        </v-layout>
-      </v-container>
+      <div class="page-grid">
+        <!-- <p>{{ list }}</p> -->
+        <RetrieveFeeders @get-feeders="getFeeders"></RetrieveFeeders>
+        <h4>{{ intent }}</h4>
+        <NestedDraggableFeeder
+          :list1="feeder"
+          @show-editor="edit"
+          @force-renumber="forceRenumber"
+        />
+
+        <RetrieveLeases @get-lease="getLease"></RetrieveLeases>
+        <v-btn @click="undo">Undo</v-btn>
+        <v-btn @click="redo">Redo</v-btn>
+        <div id="top">
+          <NestedDraggable
+            :list="lease"
+            :ce="true"
+            :counter="counter"
+            @renumber-handler="renumber(lease)"
+            @add-to-stack="addToStack"
+            @show-editor="edit"
+            @update-lse="updateLse"
+            @find-landing="findLanding"
+          />
+        </div>
+      </div>
     </div>
 
     <v-btn @click="put">put</v-btn>
@@ -285,5 +280,18 @@ export default {
 }
 .disable:disabled {
   background-color: #ccc;
+}
+.page-grid {
+  display: grid;
+  grid-template-areas:
+    'feeder lease'
+    'editor testbtns';
+  grid-gap: 2rem;
+}
+.feeder {
+  grid-area: feeder;
+}
+.lease {
+  grid-area: lease;
 }
 </style>
