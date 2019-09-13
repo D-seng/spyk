@@ -3,51 +3,54 @@
     <div :disabled="isEditorOpen">
       <div class="page-grid">
         <!-- <p>{{ list }}</p> -->
-        <RetrieveFeeders @get-feeders="getFeeders"></RetrieveFeeders>
-        <h4>{{ intent }}</h4>
-        <NestedDraggableFeeder
-          :list1="feeder"
-          @show-editor="edit"
-          @force-renumber="forceRenumber"
-        />
-
-        <RetrieveLeases @get-lease="getLease"></RetrieveLeases>
-        <v-btn @click="undo">Undo</v-btn>
-        <v-btn @click="redo">Redo</v-btn>
-        <div id="top">
-          <NestedDraggable
-            :list="lease"
-            :ce="true"
-            :counter="counter"
-            @renumber-handler="renumber(lease)"
-            @add-to-stack="addToStack"
+        <div class="feeder">
+          <RetrieveFeeders @get-feeders="getFeeders"></RetrieveFeeders>
+          <h4>{{ intent }}</h4>
+          <NestedDraggableFeeder
+            :list1="feeder"
             @show-editor="edit"
-            @update-lse="updateLse"
-            @find-landing="findLanding"
+            @force-renumber="forceRenumber"
           />
+        </div>
+        <div class="leases">
+          <RetrieveLeases @get-lease="getLease"></RetrieveLeases>
+          <v-btn @click="undo">Undo</v-btn>
+          <v-btn @click="redo">Redo</v-btn>
+          <div id="top">
+            <NestedDraggable
+              :list="lease"
+              :ce="true"
+              :counter="counter"
+              @renumber-handler="renumber(lease)"
+              @add-to-stack="addToStack"
+              @show-editor="edit"
+              @update-lse="updateLse"
+              @find-landing="findLanding"
+            />
+          </div>
         </div>
       </div>
     </div>
-
-    <v-btn @click="put">put</v-btn>
-    <v-btn @click="post">post</v-btn>
-    <v-btn @click="genId">genId</v-btn>
-    <v-btn @click="getClause">getClause</v-btn>
 
     <div v-if="isEditorOpen" class="modalshade">
       <router-view />
 
       <!-- <Editor
         :key="editorKey"
-
         :section="editorData.section.toString()"
         :verbiage="editorData.content"
         :el-id="editorData.elId"
         @sync-content="syncContent"
       ></Editor> -->
     </div>
-    <!-- <p v-else>showDialog is false</p> -->
 
+    <div class="testbtns">
+      <v-btn @click="put">put</v-btn>
+      <v-btn @click="post">post</v-btn>
+      <v-btn @click="genId">genId</v-btn>
+      <v-btn @click="getClause">getClause</v-btn>
+      <!-- <p v-else>showDialog is false</p> -->
+    </div>
     <!-- <rawDisplayer class="col-0" :value="list" title="List" /> -->
   </div>
 </template>
