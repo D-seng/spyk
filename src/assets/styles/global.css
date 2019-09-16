@@ -1,5 +1,5 @@
 body {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
@@ -7,11 +7,9 @@ body {
   padding: 0em;
   margin: 0em;
 }
-
 a:visited {
   color: #2c3e50;
 }
-
 .button,
 button {
   display: flex;
@@ -21,14 +19,12 @@ button {
   height: 2em;
   margin: 0.5em;
   border-radius: 5px;
-  background:  #777777;
+  background: #777777;
   font-size: 1em;
   color: white;
   border: none;
   outline: none;
 }
-
-
 form {
   display: flex;
   align-items: left;
@@ -36,10 +32,7 @@ form {
   width: 15em;
   margin-bottom: 2em;
   margin-left: 20px;
-
-
 }
-
 input {
   display: block;
   box-sizing: border-box;
@@ -47,7 +40,7 @@ input {
   height: 2.6em;
   padding: 0.5em;
   margin-bottom: 1em;
-  font: 1em 'Avenir', Helvetica, sans-serif;
+  font: 1em "Avenir", Helvetica, sans-serif;
   border: 1px solid grey;
 }
 h1 {

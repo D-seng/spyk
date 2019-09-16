@@ -7,7 +7,7 @@
             icon="edit"
             class="fas fa-edit fa-lg il"
             @click="
-              toggleEditor({
+              showEditor({
                 id: el.id,
                 elId: el.id,
                 content: el.verbiage,
@@ -27,7 +27,7 @@
 </template>
 
 <script type="module">
-import { eventBus } from '@/main'
+import { eventBus } from '@/main.js'
 // import { type } from 'os'
 
 export default {
@@ -42,10 +42,11 @@ export default {
     }
   },
   methods: {
-    toggleEditor(editorData) {
-      editorData.showDialog = !editorData.showDialog
-      debugger
-      eventBus.$emit('toggleEditor', editorData)
+    showEditor(editorData) {
+      // editorData.showDialog = !editorData.showDialog
+      // debugger
+      // this.$route.name = 'edit'
+      eventBus.$emit('showEditor', editorData)
     }
   }
 }

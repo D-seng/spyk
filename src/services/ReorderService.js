@@ -45,8 +45,13 @@ export default {
     this.renumber(lease)
   },
 
+  // schArr(arr, newContent) {
+  //   // debugger
+
+  //   return this.schArrX(arr, newContent.elId)
+  // },
+
   schArr(arr, elId) {
-    // debugger
     var pos
 
     var result = arr.filter(item => item.id === elId)
@@ -58,6 +63,7 @@ export default {
         }
       }
     } else {
+      debugger
       var sec = result[0].section.toString()
       console.log(sec)
       if (sec.length > 1) {
@@ -70,12 +76,16 @@ export default {
         pos = 'lease[' + sec + ']'
       }
 
-      var el = eval(pos)
-      console.log(el)
+      //DEBUG THIS. THE IF-THEN STATEMENT BLOCKS ARE
+      //OFF BY A BRACKET SOMEWHERE.
+      debugger
+      return pos
+      // var el = eval(pos)
+      // console.log(el)
+      // debugger
+      // el.verbiage = this.newContentText
 
-      el.verbiage = this.newContent
-
-      console.log(el)
+      // console.log(el)
     }
   },
   assignSection(evt) {

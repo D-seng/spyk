@@ -1,57 +1,54 @@
 <template>
   <div>
-    <div :disabled="isEditorOpen">
-      <div class="page-grid">
-        <!-- <p>{{ list }}</p> -->
-        <div class="feeder">
-          <RetrieveFeeders @get-feeders="getFeeders"></RetrieveFeeders>
-          <h4>{{ intent }}</h4>
-          <NestedDraggableFeeder
-            :list1="feeder"
-            @show-editor="edit"
-            @force-renumber="forceRenumber"
-          />
-        </div>
-        <div class="leases">
-          <RetrieveLeases @get-lease="getLease"></RetrieveLeases>
-          <v-btn @click="undo">Undo</v-btn>
-          <v-btn @click="redo">Redo</v-btn>
-          <div id="top">
-            <NestedDraggable
-              :list="lease"
-              :ce="true"
-              :counter="counter"
-              @renumber-handler="renumber(lease)"
-              @add-to-stack="addToStack"
-              @show-editor="edit"
-              @update-lse="updateLse"
-              @find-landing="findLanding"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div v-if="isEditorOpen" class="modalshade">
-      <router-view />
-
-      <!-- <Editor
+    <!-- <div :disabled="isEditorOpen"> -->
+    <div v-if="showModal" class="editor">
+      <Editor
         :key="editorKey"
         :section="editorData.section.toString()"
         :verbiage="editorData.content"
         :el-id="editorData.elId"
-        @sync-content="syncContent"
-      ></Editor> -->
+      ></Editor>
+      <router-view />
     </div>
 
-    <div class="testbtns">
-      <v-btn @click="put">put</v-btn>
-      <v-btn @click="post">post</v-btn>
-      <v-btn @click="genId">genId</v-btn>
-      <v-btn @click="getClause">getClause</v-btn>
-      <!-- <p v-else>showDialog is false</p> -->
+    <div class="page-grid">
+      <!-- <p>{{ list }}</p> -->
+      <div class="feeder">
+        <RetrieveFeeders @get-feeders="getFeeders"></RetrieveFeeders>
+        <h4>{{ intent }}</h4>
+        <NestedDraggableFeeder
+          :list1="feeder"
+          @show-editor="edit"
+          @force-renumber="forceRenumber"
+        />
+      </div>
+      <div class="leases">
+        <RetrieveLeases @get-lease="getLease"></RetrieveLeases>
+        <v-btn @click="undo">Undo</v-btn>
+        <v-btn @click="redo">Redo</v-btn>
+        <div id="top">
+          <NestedDraggable
+            :list="lease"
+            :ce="true"
+            :counter="counter"
+            @renumber-handler="renumber(lease)"
+            @add-to-stack="addToStack"
+            @show-editor="edit"
+            @update-lse="updateLse"
+            @find-landing="findLanding"
+          />
+        </div>
+      </div>
+
+      <div class="testbtns">
+        <v-btn @click="put">put</v-btn>
+        <v-btn @click="post">post</v-btn>
+        <v-btn @click="genId">genId</v-btn>
+        <v-btn @click="getClause">getClause</v-btn>
+        <!-- <p v-else>showDialog is false</p> -->
+      </div>
+      <!-- <rawDisplayer class="col-0" :value="list" title="List" /> -->
     </div>
-    <!-- <rawDisplayer class="col-0" :value="list" title="List" /> -->
   </div>
 </template>
 
@@ -66,7 +63,7 @@ import RetrieveLeases from './RetrieveLeases.vue'
 import RetrieveFeeders from './RetrieveFeeders.vue'
 import ReorderService from '@/services/ReorderService'
 import Mongoose from 'mongoose'
-import { eventBus } from '@/main'
+import { eventBus } from '@/main.js'
 
 export default {
   name: 'NestedExample',
@@ -86,22 +83,20 @@ export default {
       stepIndex: -1,
       id: null,
       idFeeder: null,
-      showDialog: false,
-      section: null,
-      content: null,
       editorKey: 0,
       listKey: 0,
       elId: '',
-      newContent: '',
-      start: 'start',
+      showEditor: false,
+      newContent: null,
       evt: null,
       counter: '1a',
+
       editorData: {
         id: null,
         elId: null,
         content: null,
-        section: null,
-        showDialog: false
+        section: null
+        // showDialog: false
       }
     }
   },
@@ -112,17 +107,34 @@ export default {
     lease() {
       return this.$store.state.lease
     },
-    isEditorOpen() {
-      debugger
-      console.log(this.$route.name)
-      return this.$route.name === 'edit'
+    showModal() {
+      // debugger
+      // console.log(this.$route.name)
+      return this.showEditor
     }
   },
   created() {
-    eventBus.$on('toggleEditor', editorData => {
+    eventBus.$on('showEditor', editorData => {
+      // alert('I heard the click.')
+      // this.$route.name = 'edit'
+      // debugger
+      this.showEditor = true
       this.editorData = editorData
       this.editorKey += 1
-    })
+    }),
+      eventBus.$on('hideEditor', () => {
+        this.showEditor = false
+        // this.editorData = editorData
+        // this.editorKey += 1
+      }),
+      eventBus.$on('sync-content', newContent => {
+        debugger
+        let pos = ReorderService.schArr(this.lease, newContent.elId)
+        debugger
+        let el = eval(pos.verbiage)
+        console.log(el)
+        el.verbiage = newContent.text
+      })
   },
   methods: {
     genId() {
@@ -181,10 +193,7 @@ export default {
       this.elId = id
       ReorderService.schArr(this.lease, this.elId)
     },
-    syncContent(newCont) {
-      this.newContent = newCont
-      ReorderService.schArr(this.lease, this.elId)
-    },
+
     edit(id, verbiage, elId) {
       // this.showDialog = true
       // this.section = id
@@ -278,7 +287,7 @@ export default {
 .selected {
   background-color: rgba(180, 100, 100, 0.808);
 }
-.modalshade {
+.modal {
   background-color: aquamarine;
 }
 .disable:disabled {
@@ -296,5 +305,20 @@ export default {
 }
 .lease {
   grid-area: lease;
+}
+.editor {
+  position: fixed;
+  z-index: 2;
+  top: 20%;
+  left: 30%;
+  width: 50%;
+  background: white;
+  padding: 1rem;
+  border: 1px #ccc;
+  box-shadow: 1px rgba(100, 100, 100, 0.808);
+}
+
+.testbtns {
+  grid-area: testbtns;
 }
 </style>

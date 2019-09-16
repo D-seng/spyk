@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div>
     <!-- <font-awesome-icon
       icon="grip-lines"
       class="fas fa-grip-lines fa-lg handle"
@@ -7,14 +7,16 @@
     /> -->
     <h3>{{ section }}{{ verbiage }} {{ elId }}</h3>
     <input type="" />
-    <form @submit.prevent="onSubmit" @click.shift="testKeyPresses">
+
+    <!-- @submit.prevent="onSubmitA" @click.shift="testKeyPresses" -->
+    <form>
       <VueEditor
         v-model="content.text"
         :editor-toolbar="customToolbar"
       ></VueEditor>
-      <p>
-        <input type="submit" value="Submit" />
-      </p>
+
+      <button @click="closeModal">Cancel</button>
+      <button @click="onSubmit">Submit</button>
     </form>
 
     <!-- <v-btn @click="onSubmit">Submit</v-btn> -->
@@ -23,6 +25,7 @@
 
 <script type="module">
 import { VueEditor } from 'vue2-editor'
+import { eventBus } from '@/main.js'
 
 export default {
   components: {
@@ -38,7 +41,9 @@ export default {
       editorKey: 0,
       sec: this.section,
       content: {
-        text: this.verbiage
+        text: this.verbiage,
+        elId: this.elId,
+        section: this.section
       },
       customToolbar: [
         [{ size: ['small', false, 'large', 'huge'] }],
@@ -54,18 +59,19 @@ export default {
     }
   },
   methods: {
+    closeModal() {
+      eventBus.$emit('hideEditor')
+    },
+    onSubmitA() {
+      alert('onSubmitA')
+    },
     onSubmit() {
       // var jwtK = process.env.VUE_APP_JWTKEY
       console.log('jwtKey')
       console.log(process.env.VUE_APP_SECRET)
-      debugger
-      this.$emit('sync-content', this.content.text)
-    },
-    testKeyPresses() {
-      // console.log(this.content.text)
-      this.$emit('sync-content', this.content.text)
-      // var el = document.getElementById(this.elId)
-      // el.innerHTML = this.content.text
+      // debugger
+      eventBus.$emit('sync-content', this.content)
+      // this.$emit('sync-content', this.content.text)
     },
     processenv() {
       console.log(process.env.VUE_APP_DBUSER)
@@ -76,7 +82,7 @@ export default {
       // console.log(JSON.stringify(this.list, null, 2))
 
       //create new db called 'lx' use new Acosta dev-server
-      var submittal = JSON.stringify(this.content.text)
+      var submittal = JSON.stringify(this.content)
       console.log(submittal)
       // fetch('http://localhost:3000' + '/api/user', {
       //   method: 'POST'
@@ -118,3 +124,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.editorBtn {
+  display: inline;
+}
+</style>

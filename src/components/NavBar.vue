@@ -9,7 +9,7 @@
       </div>
 
       <v-toolbar-title class="headline text-lowercase">
-        <span class="font-weight-light text-uppercase">AUD</span>
+        <span class="font-weight-light text-uppercase">No Y</span>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
