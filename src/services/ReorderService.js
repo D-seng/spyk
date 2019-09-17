@@ -55,10 +55,9 @@ export default {
 
   schArr(arr, elId) {
     debugger
-    if (exitSchArr === false) {
 
     var result = arr.filter(item => item.id === elId)
-    if (result.length === 0 ) {
+    if (result.length === 0) {
       var ss = arr.filter(item => item.subsections.length > 0)
       if (ss.length > 0) {
         for (var i = 0; i < ss.length; i++) {
@@ -66,9 +65,8 @@ export default {
         }
       }
     } else {
-      //debugger
+      // https://stackoverflow.com/questions/16228467/how-do-i-break-out-of-loops-in-recursive-functions
 
-      exitSchArr = true
       var sec = result[0].section.toString()
       console.log(sec)
       if (sec.length > 1) {
@@ -94,8 +92,6 @@ export default {
 
       // console.log(el)
     }
-  }
-    return pos
   },
   assignSection(evt) {
     //
