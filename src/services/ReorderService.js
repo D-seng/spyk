@@ -4,7 +4,8 @@ var insertAfter
 var subsectionEl, sec, mode
 var lease, feeder
 var pos
-var exitSchArr = false
+var found = false
+var elId
 
 const setLease = () => (lease = store.state.lease)
 const setFeeder = () => (feeder = store.state.feeder)
@@ -52,21 +53,21 @@ export default {
 
   //   return this.schArrX(arr, newContent.elId)
   // },
+  schArr(arr, id) {
+    //var trail = []
+    elId = id
+    return this.recurse(arr)
+  },
 
-  schArr(arr, elId) {
-    debugger
+  recurse(arr) {
+    //debugger
 
-    var result = arr.filter(item => item.id === elId)
-    if (result.length === 0) {
-      var ss = arr.filter(item => item.subsections.length > 0)
-      if (ss.length > 0) {
-        for (var i = 0; i < ss.length; i++) {
-          this.schArr(ss[i].subsections, elId)
-        }
-      }
-    } else {
-      // https://stackoverflow.com/questions/16228467/how-do-i-break-out-of-loops-in-recursive-functions
+    var result = arr.filter(item => {
+      return item.id === elId
+    })
 
+    if (result.length > 0) {
+      found = true
       var sec = result[0].section.toString()
       console.log(sec)
       if (sec.length > 1) {
@@ -75,23 +76,24 @@ export default {
         for (var k = 1; k < arrSec.length; k++) {
           pos = pos + '.subsections[' + (arrSec[k] - 1) + ']'
         }
-        return pos
+        //return pos
       } else {
         pos = 'lease[' + sec + ']'
-        return pos
+        //return pos
       }
-
-      //DEBUG THIS. THE IF-THEN STATEMENT BLOCKS ARE
-      //OFF BY A BRACKET SOMEWHERE.
-      //debugger
-      //return pos
-      // var el = eval(pos)
-      // console.log(el)
-      // debugger
-      // el.verbiage = this.newContentText
-
-      // console.log(el)
+    } else {
+      var ss = arr.filter(item => item.subsections.length > 0)
+      if (ss.length > 0) {
+        for (var i = 0; i < ss.length; i++) {
+          this.recurse(ss[i].subsections)
+          if (found) {
+            break
+          }
+        }
+      }
+      // https://stackoverflow.com/questions/16228467/how-do-i-break-out-of-loops-in-recursive-functions
     }
+    return pos
   },
   assignSection(evt) {
     //

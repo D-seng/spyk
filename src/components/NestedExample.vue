@@ -31,6 +31,7 @@
             :list="lease"
             :ce="true"
             :counter="counter"
+            :key="listKey"
             @renumber-handler="renumber(lease)"
             @add-to-stack="addToStack"
             @show-editor="edit"
@@ -122,24 +123,41 @@ export default {
       this.editorData = editorData
       this.editorKey += 1
     }),
-      eventBus.$on('hideEditor', () => {
+      eventBus.$on('', () => {
         this.showEditor = false
         // this.editorData = editorData
         // this.editorKey += 1
       }),
       eventBus.$on('sync-content', newContent => {
         debugger
-        let lease = this.$store.state.lease
-        let pos = ReorderService.schArr(lease, newContent.elId)
-        debugger
-        let el = eval('this.' + pos)
-        debugger
-        console.log(el)
-        debugger
-        el.verbiage = newContent.text
-      })
+       this.resetLease(newContent)
+      }),
+      eventBus.$on('hideEditor', () => {
+        this.hideEditor()
+      }
+      )
   },
   methods: {
+    resetLease(newContent){
+   let lease = this.$store.state.lease
+        let pos = ReorderService.schArr(lease, newContent.elId)
+        //debugger
+        var t = lease[0].subsections[0]
+        let el = eval(pos)
+        //debugger
+    
+        el.verbiage = newContent.text
+        //el.verbiage = 'uuu'
+        debugger
+        this.$store.dispatch('updateLease', lease)
+        console.log(lease)
+        this.$store.dispatch('setLease', lease)
+        debugger
+        //this.editorKey += 1
+        this.listKey += 1
+        //this.hideEditor()
+        eventBus.$emit('hideEditor')
+},
     genId() {
       var objectId = new Mongoose.Types.ObjectId()
       console.log(objectId)
@@ -269,6 +287,9 @@ export default {
         }
       }
     },
+    hideEditor() {
+      this.showEditor = false
+    },
     forceRenumber() {
       // alert('forceRenumb')
 
@@ -313,7 +334,7 @@ export default {
   position: fixed;
   z-index: 2;
   top: 20%;
-  left: 30%;
+  left: 2%;
   width: 50%;
   background: white;
   padding: 1rem;
