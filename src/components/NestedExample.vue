@@ -129,10 +129,13 @@ export default {
       }),
       eventBus.$on('sync-content', newContent => {
         debugger
-        let pos = ReorderService.schArr(this.lease, newContent.elId)
+        let lease = this.$store.state.lease
+        let pos = ReorderService.schArr(lease, newContent.elId)
         debugger
-        let el = eval(pos.verbiage)
+        let el = eval('this.' + pos)
+        debugger
         console.log(el)
+        debugger
         el.verbiage = newContent.text
       })
   },

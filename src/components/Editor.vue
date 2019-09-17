@@ -79,43 +79,10 @@ export default {
       console.log(process.env.VUE_APP_DBPASSWORDATLAS)
     },
     post() {
-      // console.log(JSON.stringify(this.list, null, 2))
 
-      //create new db called 'lx' use new Acosta dev-server
       var submittal = JSON.stringify(this.content)
       console.log(submittal)
-      // fetch('http://localhost:3000' + '/api/user', {
-      //   method: 'POST'
-      // }).then(res => {
-      //   // console.log(res)
-      //   console.log(res.json())
-      // })
-
-      // EventServiceAlt.postSnippet({
-      //   text: submittal,
-      //   text2: submittal + 'adsfasfd'
-      // }).then(response => {
-      //   console.log(response.status)
-      // })
-      // axios({
-      //   method: 'post',
-      //   data: {
-      //     text: submittal
-      //   },
-      //   url: 'http://localhost:3000/snippets',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // }).then(() => {
-      //   console.log('ss')
-      // })
-
-      // console.log(this.content)
-      // axios({
-      //   method: 'post',
-      //   url: 'http://localhost:5000/api/posts',
-      //   data: this.content
-      // })
+      
     },
     postX() {
       console.log(this.content)

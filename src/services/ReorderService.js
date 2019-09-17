@@ -3,6 +3,8 @@ import store from '../vuex/store'
 var insertAfter
 var subsectionEl, sec, mode
 var lease, feeder
+var pos
+var exitSchArr = false
 
 const setLease = () => (lease = store.state.lease)
 const setFeeder = () => (feeder = store.state.feeder)
@@ -52,10 +54,9 @@ export default {
   // },
 
   schArr(arr, elId) {
-    var pos
-
+    debugger
     var result = arr.filter(item => item.id === elId)
-    if (result.length === 0) {
+    if (result.length === 0 && exitSchArr === false) {
       var ss = arr.filter(item => item.subsections.length > 0)
       if (ss.length > 0) {
         for (var i = 0; i < ss.length; i++) {
@@ -63,7 +64,9 @@ export default {
         }
       }
     } else {
-      debugger
+      //debugger
+
+      exitSchArr = true
       var sec = result[0].section.toString()
       console.log(sec)
       if (sec.length > 1) {
@@ -72,14 +75,16 @@ export default {
         for (var k = 1; k < arrSec.length; k++) {
           pos = pos + '.subsections[' + (arrSec[k] - 1) + ']'
         }
+        return pos
       } else {
         pos = 'lease[' + sec + ']'
+        return pos
       }
 
       //DEBUG THIS. THE IF-THEN STATEMENT BLOCKS ARE
       //OFF BY A BRACKET SOMEWHERE.
-      debugger
-      return pos
+      //debugger
+      //return pos
       // var el = eval(pos)
       // console.log(el)
       // debugger
@@ -87,6 +92,7 @@ export default {
 
       // console.log(el)
     }
+    return pos
   },
   assignSection(evt) {
     //
