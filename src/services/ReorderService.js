@@ -55,8 +55,10 @@ export default {
 
   schArr(arr, elId) {
     debugger
+    if (exitSchArr === false) {
+
     var result = arr.filter(item => item.id === elId)
-    if (result.length === 0 && exitSchArr === false) {
+    if (result.length === 0 ) {
       var ss = arr.filter(item => item.subsections.length > 0)
       if (ss.length > 0) {
         for (var i = 0; i < ss.length; i++) {
@@ -92,6 +94,7 @@ export default {
 
       // console.log(el)
     }
+  }
     return pos
   },
   assignSection(evt) {
