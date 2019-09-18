@@ -13,8 +13,16 @@
                 content: el.verbiage,
                 section: el.section
               })
-            "/></span
-        >{{ el.section }}
+            "
+        /></span>
+
+        {{ el.section }}
+        <span :class="[isSaveActive ? 'active' : 'inactive']"
+          ><font-awesome-icon
+            icon="save"
+            class="fas fa-save fa-lg il"
+            @click="save"
+        /></span>
       </p>
       <p
         :id="el.id"
@@ -41,7 +49,17 @@ export default {
       type: Object
     }
   },
+  data() {
+    return {
+      isSaveActive: ''
+    }
+  },
   methods: {
+    showSaveIcon(elId) {
+      // eventBus.$emit('showSaveIcon', elId)
+      this.isSaveActive = true
+    },
+    save() {},
     showEditor(editorData) {
       // editorData.showDialog = !editorData.showDialog
       // debugger
@@ -54,5 +72,12 @@ export default {
 <style>
 .simplebox {
   border: solid seagreen 1px;
+}
+.inactive {
+  display: none;
+}
+
+.active {
+  display: inline;
 }
 </style>

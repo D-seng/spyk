@@ -26,12 +26,13 @@
         <RetrieveLeases @get-lease="getLease"></RetrieveLeases>
         <v-btn @click="undo">Undo</v-btn>
         <v-btn @click="redo">Redo</v-btn>
+
         <div id="top">
           <NestedDraggable
+            :key="listKey"
             :list="lease"
             :ce="true"
             :counter="counter"
-            :key="listKey"
             @renumber-handler="renumber(lease)"
             @add-to-stack="addToStack"
             @show-editor="edit"
@@ -131,34 +132,35 @@ export default {
       }),
       eventBus.$on('sync-content', newContent => {
         debugger
-       this.resetLease(newContent)
+        this.resetLease(newContent)
       }),
       eventBus.$on('hideEditor', () => {
         this.hideEditor()
-      }
-      )
+      }),
+      eventBus.$on('showSaveIcon', () => {})
   },
   methods: {
-    resetLease(newContent){
-   let lease = this.$store.state.lease
-        let pos = ReorderService.schArr(lease, newContent.elId)
-        //debugger
-        var t = lease[0].subsections[0]
-        let el = eval(pos)
-        //debugger
-    
-        el.verbiage = newContent.text
-        //el.verbiage = 'uuu'
-        debugger
-        this.$store.dispatch('updateLease', lease)
-        console.log(lease)
-        this.$store.dispatch('setLease', lease)
-        debugger
-        //this.editorKey += 1
-        this.listKey += 1
-        //this.hideEditor()
-        eventBus.$emit('hideEditor')
-},
+    save(elId) {},
+    resetLease(newContent) {
+      let lease = this.$store.state.lease
+      let pos = ReorderService.schArr(lease, newContent.elId)
+      //debugger
+      var t = lease[0].subsections[0]
+      let el = eval(pos)
+      //debugger
+
+      el.verbiage = newContent.text
+      //el.verbiage = 'uuu'
+      debugger
+      this.$store.dispatch('updateLease', lease)
+      console.log(lease)
+      this.$store.dispatch('setLease', lease)
+      debugger
+      //this.editorKey += 1
+      this.listKey += 1
+      //this.hideEditor()
+      eventBus.$emit('hideEditor')
+    },
     genId() {
       var objectId = new Mongoose.Types.ObjectId()
       console.log(objectId)
@@ -223,7 +225,7 @@ export default {
       // this.content = verbiage
       this.editorKey += 1
     },
-    
+
     post() {
       debugger
       var lseTxt = DbArrayServices.flatten(this.lease)
@@ -311,6 +313,9 @@ export default {
 }
 </script>
 <style scoped>
+.save-icon {
+  display: none;
+}
 .selected {
   background-color: rgba(180, 100, 100, 0.808);
 }
