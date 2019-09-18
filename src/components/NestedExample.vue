@@ -46,6 +46,7 @@
         <v-btn @click="post">post</v-btn>
         <v-btn @click="genId">genId</v-btn>
         <v-btn @click="getClause">getClause</v-btn>
+        <v-btn @click="put">put</v-btn>
         <!-- <p v-else>showDialog is false</p> -->
       </div>
       <!-- <rawDisplayer class="col-0" :value="list" title="List" /> -->
@@ -222,6 +223,7 @@ export default {
       // this.content = verbiage
       this.editorKey += 1
     },
+    
     post() {
       debugger
       var lseTxt = DbArrayServices.flatten(this.lease)
@@ -237,6 +239,7 @@ export default {
       })
     },
     put() {
+      debugger
       EventServiceAlt.putSnippet(this.lease, this.id).then(response => {
         console.log(response.data)
       })
