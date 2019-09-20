@@ -1,24 +1,25 @@
 <template>
-  <div>
-    <!-- <font-awesome-icon
-      icon="grip-lines"
-      class="fas fa-grip-lines fa-lg handle"
-      @click="edit"
-    /> -->
-    <h3>{{ section }}{{ verbiage }} {{ elId }}</h3>
-    <input type="" />
-
-    <!-- @submit.prevent="onSubmitA" @click.shift="testKeyPresses" -->
-    <form>
-      <VueEditor
+  <div class="editor-layout">
+    <div class="editor-heading">
+        <h3>Editing Section {{ section }}...</h3>
+    </div>
+    <VueEditor
+        class="vue-editor-form"
         v-model="content.text"
-        :editor-toolbar="customToolbar"
-      ></VueEditor>
-
-      <button @click="closeModal">Cancel</button>
-      <button @click="onSubmit">Submit</button>
-    </form>
-
+        :editor-toolbar="customToolbar">
+        </VueEditor>
+    <div class="buttons">
+      <button class="editorBtn" @click="closeModal">Cancel</button>
+      <button class="editorBtn" @click="onSubmit">Submit</button>
+    </div>
+    <div>
+      <ul>
+      <li class="blue">{{ verbiage }}</li>
+      <li>{{ elId }}</li>
+      </ul>
+    </div>
+    
+ 
     <!-- <v-btn @click="onSubmit">Submit</v-btn> -->
   </div>
 </template>
@@ -92,7 +93,20 @@ export default {
 }
 </script>
 <style scoped>
+.editor-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.vue-editor-form {
+  width: 100%;
+}
+
 .editorBtn {
   display: inline;
+}
+.editor-heading {
+  align-self: flex-start;
+  margin: 0.5rem 0;
 }
 </style>

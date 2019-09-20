@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const local = 'mongodb://localhost/lx'
 const atlas =
-  'mongodb+srv://darren-user:minori123@cluster1-yxsma.mongodb.net/test?retryWrites=true'
+  'mongodb+srv://darren-user:minori-123@cluster1-yxsma.mongodb.net/test?retryWrites=true'
 
 module.exports = function connectToDb() {
   mongoose

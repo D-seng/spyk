@@ -12,6 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import axios from 'axios'
+import globalcss from '@/styles/global.css'
 
 // import storePlugin from './plugins/storePlugin'
 // Vue.use(storePlugin)
