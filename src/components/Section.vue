@@ -56,7 +56,6 @@ export default {
   },
   methods: {
     showSaveIcon(elId) {
-      // eventBus.$emit('showSaveIcon', elId)
       this.isSaveActive = true
     },
     save() {},
