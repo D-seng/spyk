@@ -9,8 +9,8 @@
         :editor-toolbar="customToolbar">
         </VueEditor>
     <div class="buttons">
-      <button class="editorBtn" @click="closeModal">Cancel</button>
-      <button class="editorBtn" @click="onSubmit">Submit</button>
+      <button @click="closeModal">Cancel</button>
+      <button @click="onSubmit">Submit</button>
     </div>
     <div>
       <ul>
@@ -97,14 +97,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
 .vue-editor-form {
   width: 100%;
+  
 }
 
-.editorBtn {
-  display: inline;
-}
 .editor-heading {
   align-self: flex-start;
   margin: 0.5rem 0;

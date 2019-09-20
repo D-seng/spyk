@@ -1,11 +1,11 @@
 <template>
-  <div class="simplebox">
-    <div>
+  <div class="card">
+    <div class="top-of-card">
       <p :id="'sec-' + el.id">
         <span
           ><font-awesome-icon
             icon="edit"
-            class="fas fa-edit fa-lg il"
+            class="fas fa-edit fa-lg il edit-icon"
             @click="
               showEditor({
                 id: el.id,
@@ -24,6 +24,8 @@
             @click="save"
         /></span>
       </p>
+    </div>
+    <div class="bottom-of-card"> 
       <p
         :id="el.id"
         contenteditable="true"
@@ -69,13 +71,30 @@ export default {
 }
 </script>
 <style>
-.simplebox {
-  border: solid seagreen 1px;
+.card {
+  background: var(--color-4-t);
+  display: flex;
+  flex-direction: row;
+  border: 1.5px solid var(--color-4);
+  border-radius: 15px;
+  
+}
+
+.top-of-card{
+  background-color: var(--color-h);
+  padding: 0.5rem;
+  border-radius: 15px 0 0 15px;
+}
+
+.bottom-of-card {
+
 }
 .inactive {
   display: none;
 }
-
+.edit-icon:hover {
+  cursor: pointer;
+}
 .active {
   display: inline;
 }

@@ -319,9 +319,7 @@ export default {
 .selected {
   background-color: rgba(180, 100, 100, 0.808);
 }
-.modal {
-  background-color: aquamarine;
-}
+
 .disable:disabled {
   background-color: #ccc;
 }
@@ -344,9 +342,9 @@ export default {
   top: 20%;
   left: 2%;
   width: 50%;
-  background: white;
-  padding: 1rem;
-  border: 1px #ccc;
+  background: var(--color-bg);
+  padding: 0.5rem;
+  border: 3px solid #ccc;
   box-shadow: 1px rgba(100, 100, 100, 0.808);
 }
 
