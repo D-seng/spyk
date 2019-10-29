@@ -1,25 +1,25 @@
 <template>
   <div class="editor-layout">
     <div class="editor-heading">
-        <h3>Editing Section {{ section }}...</h3>
+      <h3>Editing Section {{ section }}...</h3>
     </div>
     <VueEditor
-        class="vue-editor-form"
-        v-model="content.text"
-        :editor-toolbar="customToolbar">
-        </VueEditor>
-    <div class="buttons">
-      <button @click="closeModal">Cancel</button>
-      <button @click="onSubmit">Submit</button>
+      v-model="content.text"
+      class="vue-editor-form"
+      :editor-toolbar="customToolbar"
+    >
+    </VueEditor>
+    <div>
+      <button class="button" @click="closeModal">Cancel</button>
+      <button class="button" @click="onSubmit">Submit</button>
     </div>
     <div>
-      <ul>
-      <li class="blue">{{ verbiage }}</li>
-      <li>{{ elId }}</li>
+      <ul class="hidden-info">
+        <li class="blue">{{ verbiage }}</li>
+        <li>{{ elId }}</li>
       </ul>
     </div>
-    
- 
+
     <!-- <v-btn @click="onSubmit">Submit</v-btn> -->
   </div>
 </template>
@@ -80,10 +80,8 @@ export default {
       console.log(process.env.VUE_APP_DBPASSWORDATLAS)
     },
     post() {
-
       var submittal = JSON.stringify(this.content)
       console.log(submittal)
-      
     },
     postX() {
       console.log(this.content)
@@ -97,15 +95,16 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 .vue-editor-form {
   width: 100%;
-  
 }
 
 .editor-heading {
   align-self: flex-start;
   margin: 0.5rem 0;
+}
+.hidden-info {
+  display: none;
 }
 </style>

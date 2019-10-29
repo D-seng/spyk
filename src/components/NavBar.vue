@@ -17,7 +17,7 @@
         <v-btn @click="logout">SIGN OUT</v-btn>
       </router-link>
       <router-link v-else to="/auth" class="button">
-        <v-btn>LOG IN</v-btn>
+        <!-- <v-btn>LOG IN</v-btn> -->
       </router-link>
     </v-toolbar>
     <v-navigation-drawer v-model="drawer" app>

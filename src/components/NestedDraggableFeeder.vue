@@ -18,8 +18,8 @@
           @dragstart="dragStartHandler"
           @dragend="dragEndHandler"
         >
-          <div>
-            <div>
+          <!-- <div> -->
+          <!-- <div>
               <p :id="'sec-' + el.id">
                 <span
                   ><font-awesome-icon
@@ -30,14 +30,15 @@
                 >{{ el.section }}
               </p>
               <p v-html="el.verbiage"></p>
-            </div>
-            <NestedDraggableFeeder
-              :list1="el.subsections"
-              @update-lse="updateLseHandler('subsequent')"
-              @force-renumber="forceRenumberX"
-              @dragstart="dragStartHandler"
-            />
-          </div>
+            </div> -->
+          <SectionFeeder class="lease-section" :el="el"></SectionFeeder>
+          <NestedDraggableFeeder
+            :list1="el.subsections"
+            @update-lse="updateLseHandler('subsequent')"
+            @force-renumber="forceRenumberX"
+            @dragstart="dragStartHandler"
+          />
+          <!-- </div> -->
         </li>
       </draggable>
     </div>
@@ -45,6 +46,7 @@
 </template>
 <script type="module">
 import draggable from 'vuedraggable'
+import SectionFeeder from '@/components/SectionFeeder'
 import clickAndDragServices from '@/services/ClickAndDragServices.js'
 
 var sectionLocked = null
@@ -59,7 +61,8 @@ export default {
   display: 'Clone',
   order: 3,
   components: {
-    draggable
+    draggable,
+    SectionFeeder
   },
   props: {
     list1: {

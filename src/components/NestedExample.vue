@@ -15,17 +15,17 @@
       <!-- <p>{{ list }}</p> -->
       <div class="feeder">
         <RetrieveFeeders @get-feeders="getFeeders"></RetrieveFeeders>
-        <h4>{{ intent }}</h4>
+        <!-- <h4>{{ intent }}</h4> -->
         <NestedDraggableFeeder
           :list1="feeder"
           @show-editor="edit"
           @force-renumber="forceRenumber"
         />
       </div>
-      <div class="leases">
+      <div class="lease">
         <RetrieveLeases @get-lease="getLease"></RetrieveLeases>
-        <v-btn @click="undo">Undo</v-btn>
-        <v-btn @click="redo">Redo</v-btn>
+        <button class="button" @click="undo">Undo</button>
+        <button class="button" @click="redo">Redo</button>
 
         <div id="top">
           <NestedDraggable
@@ -342,9 +342,9 @@ export default {
   top: 20%;
   left: 2%;
   width: 50%;
-  background: var(--color-bg);
+  background: var(--gray-5);
   padding: 0.5rem;
-  border: 3px solid #ccc;
+  border: 3px solid #555;
   box-shadow: 1px rgba(100, 100, 100, 0.808);
 }
 

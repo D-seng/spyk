@@ -1,5 +1,15 @@
 <template>
-  <v-select v-on:change="selectLease" :items="items" label="Lease"></v-select>
+  <div>
+    <!-- <v-select
+      class="my-select"
+      :items="items"
+      label="Lease"
+      :rounded="true"
+      @change="selectLease"
+    ></v-select> -->
+
+    <select id="sel" class="select-css" name="" @change="selectLease"> </select>
+  </div>
 </template>
 
 <script type="module">
@@ -9,31 +19,53 @@ export default {
   data() {
     return {
       items: [],
-      itemIds: []
-    }
-  },
-  methods: {
-    selectLease(a) {
-      var idIndex = this.items.indexOf(a)
-      var id = this.itemIds[idIndex]
-      this.$emit('get-lease', id)
+      itemIds: [],
+      sel: null
     }
   },
   created() {
     // debugger
     EventServiceAlt.getSnippets().then(response => {
       var arrResp = response.data.snippets
-      arrResp.forEach(element => {
-        console.log(element._id)
-        this.itemIds.push(element._id)
+      this.sel = document.getElementById('sel')
+      var index = 0
+      // debugger
 
-        this.items.push(
-          element.tenant + ' | ' + element.property + ' | ' + element._id
-        )
+      arrResp.forEach(element => {
+        // console.log(element._id)
+        this.items.push({
+          tenant: element.tenant,
+          property: element.property,
+          id: element._id
+        })
+        var opt = document.createElement('option')
+        opt.value = index
+        opt.innerHTML = element.tenant
+        this.sel.appendChild(opt)
+        index++
       })
 
       // this.addToStack()
     })
+  },
+  methods: {
+    showAlert(a) {
+      console.log(a.target)
+    },
+    selectLease() {
+      console.log(this.items[this.sel.value])
+      var id = this.items[this.sel.value].id
+      this.$emit('get-lease', id)
+    }
   }
 }
 </script>
+<style scoped>
+.my-select {
+  /* border: 1px solid green;
+  background-color: blue; */
+}
+.sel {
+  border: 1px solid green;
+}
+</style>

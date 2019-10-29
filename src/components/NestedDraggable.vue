@@ -20,7 +20,11 @@
           :key="el.section"
           @dblclick="dblClickHandler"
         >
-          <Section class="lease-section" :el="el" @show-editor="showEditor"></Section>
+          <Section
+            class="lease-section"
+            :el="el"
+            @show-editor="showEditor"
+          ></Section>
           <NestedDraggable
             :list="el.subsections"
             :ce="ce"

@@ -1,9 +1,11 @@
 <template>
-  <v-select
-    @change="selectFeeder"
+  <!-- <v-select
     :items="items"
     label="Feeder Clauses"
-  ></v-select>
+    @change="selectFeeder"
+  ></v-select> -->
+  <select id="feeder" class="select-css" name="" @change="selectFeeder">
+  </select>
 </template>
 
 <script type="module">
@@ -13,18 +15,32 @@ export default {
   data() {
     return {
       items: [],
-      itemIds: []
+      itemIds: [],
+      sel: null
     }
   },
   created() {
+    // debugger
     EventServiceAlt.getFeeders().then(response => {
-      console.log('feeder')
+      // debugger
+      console.log(response.data.feeders)
       var arrResp = response.data.feeders
-      arrResp.forEach(element => {
-        console.log(element._id)
-        this.itemIds.push(element._id)
+      this.sel = document.getElementById('feeder')
+      var index = 0
+      // debugger
 
-        this.items.push(element._id)
+      arrResp.forEach(element => {
+        // debugger
+        console.log(element._id)
+        this.items.push({
+          intent: element.intent,
+          id: element._id
+        })
+        var opt = document.createElement('option')
+        opt.value = index
+        opt.innerHTML = element.intent
+        this.sel.appendChild(opt)
+        index++
       })
 
       // this.addToStack()
@@ -32,9 +48,13 @@ export default {
   },
   methods: {
     selectFeeder(a) {
-      var idIndex = this.items.indexOf(a)
-      var id = this.itemIds[idIndex]
-      console.log(id)
+      // var idIndex = this.items.indexOf(a)
+      // var id = this.itemIds[idIndex]
+      // console.log(id)
+      // this.$emit('get-feeders', id)
+      debugger
+      console.log(this.items[this.sel.value])
+      var id = this.items[this.sel.value].id
       this.$emit('get-feeders', id)
     }
   }

@@ -5,7 +5,7 @@ const config = require('config')
 const { User } = require('../../model/user')
 const bcryptjs = require('bcryptjs')
 const Joi = require('joi')
-const nodemailer = require('nodemailer')
+// const nodemailer = require('nodemailer')
 const router = express.Router()
 
 // router.get('/user', controller.index)

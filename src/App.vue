@@ -2,23 +2,25 @@
   <div>
     <div v-if="showBackdrop" class="backdrop" @click="hideModal"></div>
 
-    <v-app>
-      <NavBar />
-      <v-content>
-        <router-view />
-      </v-content>
-    </v-app>
+    <!-- <v-app> -->
+    <NavBar2 class="nav" />
+    <!-- <v-content> -->
+    <router-view />
+    <!-- </v-content> -->
+    <!-- </v-app> -->
   </div>
 </template>
 
 <script type="module">
 import NavBar from './components/NavBar'
+import NavBar2 from './components/NavBar2'
 import { eventBus } from '@/main.js'
 
 export default {
   name: 'App',
   components: {
-    NavBar
+    NavBar,
+    NavBar2
   },
   data() {
     return {

@@ -4,34 +4,17 @@
       <p :id="'sec-' + el.id">
         <span
           ><font-awesome-icon
-            icon="edit"
-            class="fas fa-edit fa-lg il edit-icon"
-            @click="
-              showEditor({
-                id: el.id,
-                elId: el.id,
-                content: el.verbiage,
-                section: el.section
-              })
-            "
+            :id="'faminus-' + el.id"
+            icon="minus"
+            class="fas fa-minus "
+            @click="fold(el)"
         /></span>
 
         {{ el.section }}
-        <span :class="[isSaveActive ? 'active' : 'inactive']"
-          ><font-awesome-icon
-            icon="save"
-            class="fas fa-save fa-lg il"
-            @click="save"
-        /></span>
       </p>
     </div>
     <div class="bottom-of-card">
-      <p
-        :id="el.id"
-        contenteditable="true"
-        @input="showSaveIcon(el.id)"
-        v-html="el.verbiage"
-      ></p>
+      <p :id="el.id" v-html="el.verbiage"></p>
     </div>
   </div>
 </template>
